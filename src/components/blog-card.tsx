@@ -1,10 +1,8 @@
 import Link from "next/link";
-import TagBadge from "@/components/tag-badge";
 
 export default function BlogCard({
   slug,
   title,
-  description,
   date,
   tags,
 }: {
@@ -14,29 +12,24 @@ export default function BlogCard({
   date: string;
   tags: string[];
 }) {
+  const dateStr = new Date(date)
+    .toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "2-digit",
+    })
+    .replace(",", "");
+  const tagStr = tags.map((t) => `[${t}]`).join(" ");
+
   return (
-    <article className="space-y-2">
-      <Link
-        href={`/blog/${slug}`}
-        className="rounded text-xl font-semibold text-ctp-text transition-colors hover:text-ctp-mauve focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ctp-mauve"
-      >
-        {title}
-      </Link>
-      <p className="line-clamp-2 text-ctp-subtext-1">{description}</p>
-      <div className="flex items-center gap-3">
-        <time dateTime={date} className="text-sm text-ctp-subtext-0">
-          {new Date(date).toLocaleDateString("ko-KR", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          })}
-        </time>
-        <div className="flex gap-2">
-          {tags.map((tag) => (
-            <TagBadge key={tag} tag={tag} />
-          ))}
-        </div>
-      </div>
-    </article>
+    <Link
+      href={`/blog/${slug}`}
+      className="flex gap-3 rounded px-1 py-0.5 text-sm transition-colors hover:bg-t-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-t-accent"
+    >
+      <span className="shrink-0 text-t-subtle">-rw-r--r--</span>
+      <span className="shrink-0 text-t-muted">{dateStr}</span>
+      <span className="shrink-0 text-t-cyan">{tagStr}</span>
+      <span className="truncate text-t-fg">{title}</span>
+    </Link>
   );
 }

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getAllSlugs, getPostBySlug } from "@/lib/blog";
-import TagBadge from "@/components/tag-badge";
+import Prompt from "@/components/prompt";
 
 export async function generateStaticParams() {
   return getAllSlugs().map((slug) => ({ slug }));
@@ -35,31 +35,40 @@ export default async function BlogPostPage({
     `../../../../content/blog/${slug}.mdx`
   );
 
+  const tags = post.frontmatter.tags.map((t) => `[${t}]`).join(" ");
+
   return (
     <article>
-      <header className="mb-8 space-y-4">
-        <h1 className="text-3xl font-bold text-ctp-text text-wrap-balance">
-          {post.frontmatter.title}
-        </h1>
-        <div className="flex items-center gap-3">
-          <time
-            dateTime={post.frontmatter.date}
-            className="text-sm text-ctp-subtext-0"
-          >
-            {new Date(post.frontmatter.date).toLocaleDateString("ko-KR", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
-          </time>
-          <div className="flex gap-2">
-            {post.frontmatter.tags.map((tag) => (
-              <TagBadge key={tag} tag={tag} />
-            ))}
-          </div>
+      <header className="mb-8 space-y-2">
+        <Prompt command={`vim ~/blog/${slug}.mdx`} />
+        <div className="mt-4 space-y-1 text-sm">
+          <p>
+            <span className="text-t-blue">title</span>
+            <span className="text-t-muted">{": "}</span>
+            <span className="font-semibold text-t-fg">
+              {post.frontmatter.title}
+            </span>
+          </p>
+          <p>
+            <span className="text-t-blue">date</span>
+            <span className="text-t-muted">{":  "}</span>
+            <time dateTime={post.frontmatter.date} className="text-t-fg">
+              {new Date(post.frontmatter.date).toLocaleDateString("ko-KR", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </time>
+          </p>
+          <p>
+            <span className="text-t-blue">tags</span>
+            <span className="text-t-muted">{":  "}</span>
+            <span className="text-t-cyan">{tags}</span>
+          </p>
+          <p className="text-t-border" aria-hidden="true">───────────────────────────</p>
         </div>
       </header>
-      <div className="prose prose-lg max-w-none">
+      <div className="prose prose-lg max-w-none font-mono">
         <MDXContent />
       </div>
     </article>

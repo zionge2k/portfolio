@@ -27,39 +27,42 @@
 
 세 개의 섹션으로 구성한다:
 
-**Hero 섹션**
-- 프로필 사진
-- Tagline (한 줄 소개)
-- 간단한 자기소개
-- 소셜 링크 (GitHub, LinkedIn, Email 등)
+**Hero 섹션 (neofetch 스타일)**
+- `$ neofetch` 프롬프트 후 프로필 이미지 + key-value 정보 표시
+- OS, Role, Lang, Editor, Uptime 항목
 
 **GitHub Contributions 섹션**
-- GitHub 잔디(Contributions Graph)를 표시한다
-- Catppuccin Latte 색상 팔레트에 맞게 스타일링한다
+- `$ gh contributions --user {username}` 프롬프트
+- GitHub 잔디를 green 계열 테마로 표시, border + surface 배경으로 감싸 이질감 감소
 
 **최근 블로그 글 섹션**
-- 최근 작성한 블로그 글 목록을 표시한다
-- 블로그 페이지로의 링크를 제공한다
+- `$ ls -la ~/blog/recent` 프롬프트
+- 파일 시스템 목록 스타일: `-rw-r--r-- Jan 31 2026 [tag] title`
+- `$ cd ~/blog` 링크로 블로그 페이지 이동
 
 #### 2. About 페이지 (`/about`)
 
-- 경력 (Career)
-- 기술 스택 (Tech Stack)
-- 관심 분야 (Interests)
-- 현재 하고 있는 것 (Now)
-- 프로필 사진
-- 연락처 / 소셜 링크
+각 섹션을 터미널 명령어 결과로 표현한다:
+
+- **Profile**: `$ vim ~/about/profile.md` — VimBuffer로 이름, Role, Education 표시
+- **Career**: `$ vim ~/about/career.md` — VimBuffer로 경력 상세 (줄 번호 포함)
+- **Projects**: `$ ls ~/projects` — 파일 시스템 목록, 상세는 `VimToggle`로 토글
+- **Tech Stack**: `$ vim ~/.config/tech-stack.yml` — YAML 형식 VimBuffer
+- **Education**: `$ vim ~/education/history.log` — VimBuffer로 학력
+- **Now**: `$ vim ~/status/now.md` — VimBuffer로 현재 활동
+- **Contact**: `$ vim ~/.ssh/contact.pub` — VimBuffer로 연락처
 
 #### 3. Blog 페이지 (`/blog`)
 
 **목록 페이지 (`/blog`)**
-- 블로그 글 목록을 표시한다
-- 태그/뱃지 기반으로 카테고리를 분류한다
-- 주요 카테고리: 프로젝트 기록, 회고, TIL
+- `$ ls -la ~/blog/` 프롬프트
+- 파일 시스템 목록 스타일: permissions + date + `[tag]` + title
+- 태그는 `[bracket]` 형식
 
 **상세 페이지 (`/blog/[slug]`)**
-- MDX로 작성된 블로그 글을 렌더링한다
-- 태그/뱃지를 표시한다
+- `$ vim ~/blog/{slug}.mdx` 프롬프트
+- frontmatter를 key-value 형식 메타데이터로 표시
+- MDX 콘텐츠는 prose + font-mono
 
 ### 콘텐츠 관리
 
@@ -70,19 +73,23 @@
 
 ### 디자인
 
-- **디자인 레퍼런스**: [catppuccin.com](https://catppuccin.com/) 공식 사이트
+- **디자인 컨셉**: CLI/Terminal 테마 — 전체 사이트를 터미널 UI로 표현
+- **디자인 레퍼런스**: Warp Terminal (Light 테마)
 - **테마**: Light 모드 전용 (다크 모드 미지원)
-- **색상**: Catppuccin Latte 팔레트
-  - Base: `#eff1f5` (배경)
-  - Text: `#4c4f69` (본문)
-  - Subtext: `#5c5f77`, `#6c6f85`
-  - Surface: `#ccd0da`, `#bcc0cc`, `#acb0be` (카드, 보더)
-  - Accent: Mauve `#8839ef`, Blue `#1e66f5`, Sapphire `#209fb5`
-  - 기타: 전체 팔레트는 [catppuccin.com/palette](https://catppuccin.com/palette/) 참조
-- **디자인 키워드**: 미니멀, 클린 타이포그래피, 넉넉한 여백, 라운드 코너, 소프트 섀도우, 파스텔 액센트
+- **색상**: Warp Light 터미널 팔레트
+  - Background: `#ffffff`, Foreground: `#111111`, Accent: `#00c2ff`
+  - Terminal ANSI: red `#c30771`, green `#10a778`, blue `#008ec4`, cyan `#20a5ba`, magenta `#523c79`, yellow `#a89c14`
+  - Semantic: muted `#6b7280`, subtle `#9ca3af`, border `#e5e7eb`, surface `#f5f5f5`
+- **디자인 키워드**: 모노스페이스, 터미널 프롬프트, neofetch, vim 버퍼, ls 출력, 구문 강조 색상
+- **터미널 UI 요소**:
+  - `$ command` 프롬프트 스타일 섹션 헤더
+  - vim 버퍼 (파일명 탭, 줄 번호, `-- NORMAL --` 상태바)로 콘텐츠 표시
+  - `ls -la` 파일 목록 스타일 블로그 포스트 목록
+  - neofetch 스타일 프로필 (key: value)
+  - 프로젝트 상세는 토글로 vim 버퍼를 열어 확인
 - **폰트**:
-  - 한글: Pretendard
-  - 영문: Inter
+  - 영문/코드: JetBrains Mono (전체 기본)
+  - 한글 폴백: Pretendard
 - **스타일링**: Tailwind CSS (커스텀 구현)
 
 ### 기술 스택

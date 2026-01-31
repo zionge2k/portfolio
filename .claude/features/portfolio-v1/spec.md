@@ -27,25 +27,34 @@ GitHub Contributions Graph에 `react-github-calendar`을 사용한다.
 - 내부적으로 `react-activity-calendar`를 사용하며, GitHub API 토큰 없이도 공개 프로필의 잔디를 가져올 수 있다(Gruber Contributions API 활용).
 - 단, Client Component(`"use client"`)로 사용해야 한다. 메인 페이지에서 이 컴포넌트만 클라이언트로 분리한다.
 
-### 왜 Pretendard는 next/font/local인가?
+### 왜 JetBrains Mono인가?
 
-- Pretendard는 Google Fonts에 등록되어 있지 않으므로 `next/font/local`로 로드한다.
-- Variable Font(PretendardVariable.woff2) 단일 파일로 모든 굵기를 커버하여 네트워크 요청을 최소화한다.
-- `pretendard` npm 패키지에서 woff2 파일을 참조하면 저장소에 폰트 바이너리를 넣지 않아도 된다.
-- Inter는 Google Fonts에 등록되어 있으므로 `next/font/google`을 사용한다.
+터미널 컨셉에 맞게 전체 폰트를 모노스페이스(JetBrains Mono)로 통일한다.
+
+- `next/font/google`에서 `JetBrains_Mono`를 import하여 추가 설치 불필요.
+- Inter는 제거. 한글 폴백으로 Pretendard를 유지한다 (모노 폰트에 한글 글리프 없음).
+- Pretendard는 여전히 `next/font/local`로 Variable Font 로드.
+- `--font-mono: var(--font-jetbrains), var(--font-pretendard), ui-monospace, monospace`
 
 ### 왜 Tailwind CSS 4 @theme인가?
 
-Catppuccin Latte 팔레트를 Tailwind CSS 4의 `@theme inline` 디렉티브로 정의한다.
+Warp Light 터미널 팔레트를 Tailwind CSS 4의 `@theme inline` 디렉티브로 정의한다.
 
-- 프로젝트가 이미 Tailwind CSS 4를 사용 중이며, `@theme` 디렉티브가 별도의 config 파일 없이 CSS에서 직접 테마를 정의하는 공식 방법이다.
+- `@theme` 디렉티브가 별도의 config 파일 없이 CSS에서 직접 테마를 정의하는 공식 방법이다.
 - CSS Custom Properties로 정의되므로 런타임에서도 접근 가능하고, `react-github-calendar` 등 외부 컴포넌트의 스타일링에도 활용할 수 있다.
+- Catppuccin Latte에서 Warp Light로 전환: 터미널 ANSI 16색 + semantic alias(`t-muted`, `t-subtle`, `t-border`, `t-surface`) 구조.
+
+### 왜 Catppuccin Latte에서 Warp Light로 전환했는가?
+
+- Catppuccin Latte의 base 색상(`#eff1f5`)이 순수 흰색이 아니어서 터미널 컨셉과 어울리지 않았다.
+- 사용자의 실제 Warp 터미널 Light 테마와 일치시켜 일관된 경험을 제공한다.
+- Warp Light는 `background: #ffffff`, `foreground: #111111`으로 명확한 대비를 제공한다.
+- Warp의 내장 테마 색상은 `warpdotdev/themes` GitHub 저장소의 `warp_bundled/warp_light.yaml`에서 추출.
 
 ### 왜 Light 모드 전용인가?
 
 - V1의 범위를 줄여 빠르게 배포하기 위한 의도적 선택이다.
-- Catppuccin Latte는 라이트 테마 전용 팔레트이므로, 다크 모드를 추가하려면 별도 팔레트(Mocha/Macchiato 등)를 추가 설계해야 한다. 이는 V1 범위를 넘는다.
-- `prefers-color-scheme` 미디어 쿼리를 제거하고 Light 모드로 고정한다.
+- 다크 모드 추가 시 Warp Dark 팔레트를 별도로 추가 설계해야 한다. 이는 V1 범위를 넘는다.
 
 ---
 
@@ -72,12 +81,16 @@ portfolio/
 │   │       └── [slug]/
 │   │           └── page.tsx     # 블로그 상세
 │   ├── components/
-│   │   ├── nav.tsx              # 네비게이션
-│   │   ├── footer.tsx           # 푸터
+│   │   ├── nav.tsx              # 터미널 탭 바 네비게이션 (Client Component)
+│   │   ├── footer.tsx           # 터미널 프롬프트 + 커서
+│   │   ├── prompt.tsx           # $ command 프롬프트 (Server Component)
+│   │   ├── vim-buffer.tsx       # VimBuffer + Line (Server Component)
+│   │   ├── vim-toggle.tsx       # 토글로 VimBuffer 열기 (Client Component)
+│   │   ├── terminal-window.tsx  # 터미널 윈도우 프레임 (Server Component)
 │   │   ├── github-calendar.tsx  # GitHub 잔디 (Client Component)
-│   │   ├── blog-card.tsx        # 블로그 카드
-│   │   ├── tag-badge.tsx        # 태그 뱃지
-│   │   └── social-links.tsx     # 소셜 링크
+│   │   ├── blog-card.tsx        # ls -la 스타일 블로그 행
+│   │   ├── tag-badge.tsx        # [bracket] 스타일 태그
+│   │   └── social-links.tsx     # $ open / $ mail 스타일 링크
 │   ├── lib/
 │   │   └── blog.ts              # MDX 파일 읽기, 메타데이터 파싱 유틸리티
 │   └── types/
@@ -115,86 +128,27 @@ content/blog/*.mdx
 - `src/lib/blog.ts`가 콘텐츠 접근의 단일 진입점이다. CMS 전환 시 이 파일만 교체한다.
 - 정적 빌드를 위해 `generateStaticParams`로 모든 slug를 미리 생성한다.
 
-### Catppuccin Latte 테마 설정
+### Warp Light 테마 설정
 
-`globals.css`에서 `@theme inline`으로 전체 팔레트를 정의한다:
-
-```css
-@import "tailwindcss";
-
-@theme inline {
-  /* Catppuccin Latte - Base Colors */
-  --color-ctp-base: #eff1f5;
-  --color-ctp-mantle: #e6e9ef;
-  --color-ctp-crust: #dce0e8;
-
-  /* Catppuccin Latte - Surface */
-  --color-ctp-surface-0: #ccd0da;
-  --color-ctp-surface-1: #bcc0cc;
-  --color-ctp-surface-2: #acb0be;
-
-  /* Catppuccin Latte - Text */
-  --color-ctp-text: #4c4f69;
-  --color-ctp-subtext-1: #5c5f77;
-  --color-ctp-subtext-0: #6c6f85;
-  --color-ctp-overlay-2: #7c7f93;
-  --color-ctp-overlay-1: #8c8fa1;
-  --color-ctp-overlay-0: #9ca0b0;
-
-  /* Catppuccin Latte - Accent */
-  --color-ctp-rosewater: #dc8a78;
-  --color-ctp-flamingo: #dd7878;
-  --color-ctp-pink: #ea76cb;
-  --color-ctp-mauve: #8839ef;
-  --color-ctp-red: #d20f39;
-  --color-ctp-maroon: #e64553;
-  --color-ctp-peach: #fe640b;
-  --color-ctp-yellow: #df8e1d;
-  --color-ctp-green: #40a02b;
-  --color-ctp-teal: #179299;
-  --color-ctp-sky: #04a5e5;
-  --color-ctp-sapphire: #209fb5;
-  --color-ctp-blue: #1e66f5;
-  --color-ctp-lavender: #7287fd;
-
-  /* Font */
-  --font-sans: var(--font-pretendard), var(--font-inter), system-ui, sans-serif;
-}
-```
-
-Tailwind 클래스로 `bg-ctp-base`, `text-ctp-text`, `text-ctp-mauve` 등으로 사용한다.
+`globals.css`에서 `@theme inline`으로 Warp Light 터미널 팔레트를 정의한다.
+색상 네이밍은 `t-*` 접두사를 사용하며, ANSI 16색 + semantic alias 구조이다.
+Tailwind 클래스로 `bg-t-bg`, `text-t-fg`, `text-t-blue` 등으로 사용한다.
 
 ### 폰트 설정
 
-```tsx
-// src/app/layout.tsx
-import localFont from "next/font/local";
-import { Inter } from "next/font/google";
-
-const pretendard = localFont({
-  src: "../fonts/PretendardVariable.woff2",
-  display: "swap",
-  weight: "45 920",
-  variable: "--font-pretendard",
-});
-
-const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-inter",
-});
-```
-
-- Pretendard가 먼저 매칭되고, 라틴 문자에서 Inter가 폴백으로 동작한다.
-- `src/fonts/` 디렉토리에 PretendardVariable.woff2를 배치한다. `pretendard` npm 패키지에서 복사하거나, GitHub 릴리스에서 다운로드한다.
+JetBrains Mono를 전체 기본 폰트로, Pretendard를 한글 폴백으로 사용한다.
+`body`에 `font-mono` 적용. Inter는 제거됨.
 
 ### 컴포넌트 설계 원칙
 
 - **기본은 Server Component**: 데이터 페칭과 정적 렌더링은 서버에서 처리한다.
 - **Client Component 최소화**: `"use client"`는 인터랙션이 필요한 컴포넌트에만 사용한다.
+  - `nav.tsx`: `usePathname()`으로 활성 탭 감지
   - `github-calendar.tsx`: 외부 라이브러리가 클라이언트 전용
-  - 태그 필터링 등 사용자 인터랙션이 있는 부분
+  - `vim-toggle.tsx`: 토글 상태 관리
 - **Composition 패턴**: Agent Skills의 Composition Patterns를 따라 boolean prop 남용을 피하고, children 합성을 활용한다.
+  - `VimBuffer` + `Line`은 공유 컴포넌트로 추출 (`vim-buffer.tsx`)
+  - `VimToggle`은 `VimBuffer`를 children이 아닌 `items` prop으로 구성 (토글 특성상)
 
 ### 반응형 브레이크포인트
 
@@ -218,6 +172,7 @@ pretendard
 ```
 
 - `@tailwindcss/typography`: MDX 렌더링 시 `prose` 클래스로 타이포그래피 스타일 적용
+- `react-icons`: 제거됨 (터미널 컨셉에 맞게 ASCII 문자 `>`, `-`, `$`로 대체)
 
 ---
 

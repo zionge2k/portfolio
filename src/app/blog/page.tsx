@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { getAllPosts } from "@/lib/blog";
-import BlogCard from "@/components/blog-card";
+import Prompt from "@/components/prompt";
 
 export const metadata: Metadata = {
   title: "Blog | 이성",
@@ -11,24 +12,44 @@ export default async function BlogPage() {
   const posts = getAllPosts();
 
   return (
-    <div className="space-y-8">
-      <h1 className="text-3xl font-bold text-ctp-text">Blog</h1>
-      {posts.length === 0 ? (
-        <p className="text-ctp-subtext-1">아직 게시된 글이 없습니다.</p>
-      ) : (
-        <div className="space-y-8">
-          {posts.map((post) => (
-            <BlogCard
-              key={post.slug}
-              slug={post.slug}
-              title={post.frontmatter.title}
-              description={post.frontmatter.description}
-              date={post.frontmatter.date}
-              tags={post.frontmatter.tags}
-            />
-          ))}
-        </div>
-      )}
+    <div>
+      <Prompt command="ls -la ~/blog/" />
+      <div className="mt-4">
+        {posts.length === 0 ? (
+          <p className="text-sm text-t-muted">total 0</p>
+        ) : (
+          <div className="space-y-1 text-sm">
+            <p className="text-t-muted">total {posts.length}</p>
+            {posts.map((post) => {
+              const date = new Date(post.frontmatter.date);
+              const dateStr = date
+                .toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "short",
+                  day: "2-digit",
+                })
+                .replace(",", "");
+              const tags = post.frontmatter.tags
+                .map((t) => `[${t}]`)
+                .join(" ");
+              return (
+                <Link
+                  key={post.slug}
+                  href={`/blog/${post.slug}`}
+                  className="flex gap-3 rounded px-1 py-0.5 transition-colors hover:bg-t-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-t-accent"
+                >
+                  <span className="shrink-0 text-t-subtle">-rw-r--r--</span>
+                  <span className="shrink-0 text-t-muted">{dateStr}</span>
+                  <span className="shrink-0 text-t-cyan">{tags}</span>
+                  <span className="truncate text-t-fg">
+                    {post.frontmatter.title}
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

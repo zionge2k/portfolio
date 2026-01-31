@@ -2,39 +2,47 @@
 @plugin "@tailwindcss/typography";
 
 @theme inline {
-  /* Catppuccin Latte palette */
-  --color-ctp-rosewater: #dc8a78;
-  --color-ctp-flamingo: #dd7878;
-  --color-ctp-pink: #ea76cb;
-  --color-ctp-mauve: #8839ef;
-  --color-ctp-red: #d20f39;
-  --color-ctp-maroon: #e64553;
-  --color-ctp-peach: #fe640b;
-  --color-ctp-yellow: #df8e1d;
-  --color-ctp-green: #40a02b;
-  --color-ctp-teal: #179299;
-  --color-ctp-sky: #04a5e5;
-  --color-ctp-sapphire: #209fb5;
-  --color-ctp-blue: #1e66f5;
-  --color-ctp-lavender: #7287fd;
+  /* Warp Light terminal palette */
+  --color-t-bg: #ffffff;
+  --color-t-fg: #111111;
+  --color-t-accent: #00c2ff;
 
-  --color-ctp-text: #4c4f69;
-  --color-ctp-subtext-1: #5c5f77;
-  --color-ctp-subtext-0: #6c6f85;
-  --color-ctp-overlay-2: #7c7f93;
-  --color-ctp-overlay-1: #8c8fa1;
-  --color-ctp-overlay-0: #9ca0b0;
-  --color-ctp-surface-2: #acb0be;
-  --color-ctp-surface-1: #bcc0cc;
-  --color-ctp-surface-0: #ccd0da;
-  --color-ctp-base: #eff1f5;
-  --color-ctp-mantle: #e6e9ef;
-  --color-ctp-crust: #dce0e8;
+  /* normal */
+  --color-t-black: #212121;
+  --color-t-red: #c30771;
+  --color-t-green: #10a778;
+  --color-t-yellow: #a89c14;
+  --color-t-blue: #008ec4;
+  --color-t-magenta: #523c79;
+  --color-t-cyan: #20a5ba;
+  --color-t-white: #e0e0e0;
 
-  --font-sans: var(--font-pretendard), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  /* bright */
+  --color-t-br-black: #212121;
+  --color-t-br-red: #fb007a;
+  --color-t-br-green: #5fd7af;
+  --color-t-br-yellow: #f3e430;
+  --color-t-br-blue: #20bbfc;
+  --color-t-br-magenta: #6855de;
+  --color-t-br-cyan: #4fb8cc;
+  --color-t-br-white: #f1f1f1;
+
+  /* semantic aliases */
+  --color-t-muted: #6b7280;
+  --color-t-subtle: #9ca3af;
+  --color-t-border: #e5e7eb;
+  --color-t-surface: #f5f5f5;
+  --color-t-gutter: #f0f0f0;
+
+  --font-mono: var(--font-jetbrains), var(--font-pretendard), ui-monospace, monospace;
 }
 
 body {
-  background-color: var(--color-ctp-base);
-  color: var(--color-ctp-text);
+  background-color: var(--color-t-bg);
+  color: var(--color-t-fg);
+}
+
+::selection {
+  background-color: var(--color-t-accent);
+  color: var(--color-t-bg);
 }

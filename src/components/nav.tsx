@@ -1,33 +1,49 @@
-import Link from "next/link";
+"use client";
 
-const links = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
-  { href: "/blog", label: "Blog" },
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+const tabs = [
+  { href: "/", label: "~/home" },
+  { href: "/about", label: "~/about" },
+  { href: "/blog", label: "~/blog" },
 ];
 
 export default function Nav() {
+  const pathname = usePathname();
+
+  function isActive(href: string) {
+    if (href === "/") return pathname === "/";
+    return pathname.startsWith(href);
+  }
+
   return (
-    <header className="border-b border-ctp-surface-0">
+    <header className="border-b border-t-border">
       <nav
         aria-label="메인 내비게이션"
-        className="mx-auto flex max-w-3xl items-center justify-between px-6 py-4"
+        className="mx-auto flex max-w-3xl items-center px-6"
       >
-        <Link href="/" className="rounded text-lg font-semibold text-ctp-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ctp-mauve">
-          이성
+        <Link
+          href="/"
+          className="mr-6 rounded py-3 text-sm font-semibold text-t-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-t-accent"
+        >
+          <span className="text-t-subtle">~/</span>zion
         </Link>
-        <ul className="flex gap-6">
-          {links.map(({ href, label }) => (
-            <li key={href}>
-              <Link
-                href={href}
-                className="rounded text-sm text-ctp-subtext-1 transition-colors hover:text-ctp-mauve focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ctp-mauve"
-              >
-                {label}
-              </Link>
-            </li>
+        <div className="flex">
+          {tabs.map(({ href, label }) => (
+            <Link
+              key={href}
+              href={href}
+              className={`border-b-2 px-4 py-3 text-xs transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-t-accent ${
+                isActive(href)
+                  ? "border-t-accent text-t-fg"
+                  : "border-transparent text-t-muted hover:text-t-fg"
+              }`}
+            >
+              {label}
+            </Link>
           ))}
-        </ul>
+        </div>
       </nav>
     </header>
   );

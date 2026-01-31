@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { Inter } from "next/font/google";
+import { JetBrains_Mono } from "next/font/google";
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
 import "./globals.css";
@@ -12,9 +12,9 @@ const pretendard = localFont({
   weight: "45 920",
 });
 
-const inter = Inter({
+const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-jetbrains",
   display: "swap",
 });
 
@@ -31,10 +31,10 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <head>
-        <meta name="theme-color" content="#eff1f5" />
+        <meta name="theme-color" content="#ffffff" />
       </head>
       <body
-        className={`${pretendard.variable} ${inter.variable} font-sans antialiased`}
+        className={`${pretendard.variable} ${jetbrainsMono.variable} font-mono antialiased`}
       >
         <Nav />
         <main className="mx-auto max-w-3xl px-6 py-16">{children}</main>
