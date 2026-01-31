@@ -36,6 +36,43 @@ yarn-error.log*
 # vercel
 .vercel
 
+# agent skills - other AI agents (only .claude/ and .agents/ are used)
+.adal/
+.agent/
+.augment/
+.cline/
+.codebuddy/
+.codex/
+.commandcode/
+.continue/
+.crush/
+.cursor/
+.factory/
+.gemini/
+.github/copilot
+.goose/
+.iflow/
+.junie/
+.kilocode/
+.kiro/
+.kode/
+.mcpjam/
+.mux/
+.neovate/
+.openclaude/
+.opencode/
+.openhands/
+.pi/
+.pochi/
+.qoder/
+.qwen/
+.roo/
+.trae/
+.vibe/
+.windsurf/
+.zencoder/
+/skills/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
