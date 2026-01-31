@@ -36,6 +36,12 @@ yarn-error.log*
 # vercel
 .vercel
 
+# playwright mcp
+.playwright-mcp/
+
+# claude local settings
+.claude/settings.local.json
+
 # agent skills - other AI agents (only .claude/ and .agents/ are used)
 .adal/
 .agent/
