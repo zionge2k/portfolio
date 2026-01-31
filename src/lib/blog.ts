@@ -6,6 +6,15 @@ import type { Frontmatter, Post } from "@/types/blog";
 
 const BLOG_DIR = path.join(process.cwd(), "content", "blog");
 
+export function slugToHash(slug: string): string {
+  let hash = 0x811c9dc5;
+  for (let i = 0; i < slug.length; i++) {
+    hash ^= slug.charCodeAt(i);
+    hash = Math.imul(hash, 0x01000193);
+  }
+  return (hash >>> 0).toString(16).padStart(7, "0").slice(0, 7);
+}
+
 export function getAllPosts(): Post[] {
   if (!fs.existsSync(BLOG_DIR)) return [];
 
