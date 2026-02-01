@@ -6,11 +6,13 @@ import { VimBuffer, Line } from "@/components/vim-buffer";
 export default function VimToggle({
   filename,
   items,
+  defaultOpen = false,
 }: {
   filename: string;
   items: string[];
+  defaultOpen?: boolean;
 }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(defaultOpen);
 
   return (
     <div>

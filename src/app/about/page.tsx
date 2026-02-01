@@ -16,7 +16,7 @@ export default function AboutPage() {
       <CommandBlock command="vim ~/about/profile.md" aria-label="프로필">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
           <Image
-            src="/images/profile.jpg"
+            src="/images/profile.png"
             alt="이성 프로필 사진"
             width={128}
             height={128}
@@ -51,40 +51,63 @@ export default function AboutPage() {
       {/* Career */}
       <CommandBlock command="vim ~/about/career.md" aria-label="경력">
         <VimBuffer filename="~/about/career.md">
-          <Line n={1}>
-            <span className="text-t-border" aria-hidden="true">
-              ─── (주)어딩 (Eoding) ──────────────────────────
-            </span>
-          </Line>
-          <Line n={2}>
-            <span className="text-t-blue">Role</span>
-            <span className="text-t-muted">{"     "}</span>
-            <span className="text-t-fg">Backend Developer</span>
-          </Line>
-          <Line n={3}>
-            <span className="text-t-blue">Period</span>
-            <span className="text-t-muted">{"   "}</span>
-            <span className="text-t-fg">2022.06 – 2024.08</span>
-          </Line>
-          <Line n={4}>
-            <span className="text-t-border" aria-hidden="true">
-              ─────────────────────────────────────────────
-            </span>
-          </Line>
-          {[
-            "Django 기반 대규모 프로젝트 백엔드 개발 및 DB 관리",
-            "페이지 로딩 속도 10초 → 1초 이내 최적화 (사전 집계 테이블 설계, SQL 최적화)",
-            "Redis + Celery 기반 비동기 처리 시스템 구축으로 서버 과부하 해소",
-            "마이그레이션 표준 프로세스 도입으로 협업 효율성 및 시스템 안정성 향상",
-            "외부 API 연동 및 항공권 예약 데이터 핸들링 시스템 개발",
-          ].map((item, i) => (
-            <Line key={item} n={5 + i}>
-              <span className="text-t-green" aria-hidden="true">
-                &gt;{" "}
-              </span>
-              <span className="text-t-fg">{item}</span>
-            </Line>
-          ))}
+          {(() => {
+            const careers = [
+              {
+                company: "(주)소프트웨어캠퍼스 (SoftwareCampus)",
+                role: "Backend Lead",
+                period: "2026.01 – 현재",
+                items: [
+                  "부트캠프 비교 플랫폼 softwarecampus.co.kr 런칭 및 운영",
+                  "프로젝트 상세: ~/projects/SoftwareCampus 참조",
+                ],
+              },
+              {
+                company: "(주)어딩 (Eoding)",
+                role: "Backend Developer",
+                period: "2022.06 – 2024.08",
+                items: [
+                  "Django 기반 대규모 프로젝트 백엔드 개발 및 DB 관리",
+                  "페이지 로딩 속도 10초 → 1초 이내 최적화 (사전 집계 테이블 설계, SQL 최적화)",
+                  "Redis + Celery 기반 비동기 처리 시스템 구축으로 서버 과부하 해소",
+                  "마이그레이션 표준 프로세스 도입으로 협업 효율성 및 시스템 안정성 향상",
+                  "외부 API 연동 및 항공권 예약 데이터 핸들링 시스템 개발",
+                ],
+              },
+            ];
+            let lineNum = 0;
+            return careers.map(({ company, role, period, items }, idx) => (
+              <div key={company}>
+                {idx > 0 && <Line n={++lineNum} />}
+                <Line n={++lineNum}>
+                  <span className="font-semibold text-t-fg">
+                    [{company}]
+                  </span>
+                </Line>
+                <Line n={++lineNum}>
+                  {"  "}
+                  <span className="text-t-blue">Role</span>
+                  <span className="text-t-muted">{":   "}</span>
+                  <span className="text-t-fg">{role}</span>
+                </Line>
+                <Line n={++lineNum}>
+                  {"  "}
+                  <span className="text-t-blue">Period</span>
+                  <span className="text-t-muted">{": "}</span>
+                  <span className="text-t-fg">{period}</span>
+                </Line>
+                {items.map((item) => (
+                  <Line key={item} n={++lineNum}>
+                    {"  "}
+                    <span className="text-t-green" aria-hidden="true">
+                      &gt;{" "}
+                    </span>
+                    <span className="text-t-fg">{item}</span>
+                  </Line>
+                ))}
+              </div>
+            ));
+          })()}
         </VimBuffer>
       </CommandBlock>
 
@@ -125,6 +148,7 @@ export default function AboutPage() {
               런칭하여 유지보수 및 신규 기능 개발 중.
             </p>
             <VimToggle
+              defaultOpen
               filename="SoftwareCampus/README.md"
               items={[
                 "멀티 모듈 아키텍처(api/domain/infra) 설계로 레이어 간 의존성 분리",
@@ -177,6 +201,7 @@ export default function AboutPage() {
               서비스.
             </p>
             <VimToggle
+              defaultOpen
               filename="oneday-class-matching/README.md"
               items={[
                 "클래스 등록 시스템 전체 개발 및 KAKAO MAP API Geocoder 연동",

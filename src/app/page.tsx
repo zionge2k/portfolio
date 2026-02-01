@@ -11,7 +11,6 @@ const GitHubCalendarSection = dynamic(
 
 const neofetchInfo = [
   { key: "OS", value: "macOS / Linux (Arch Linux)" },
-  { key: "Role", value: "Backend Developer" },
   { key: "Lang", value: "Java, Python, TypeScript" },
   { key: "Terminal", value: "Warp" },
   { key: "Shell", value: "zsh" },
@@ -29,7 +28,7 @@ export default function Home() {
       <CommandBlock command="neofetch" aria-label="neofetch">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
           <Image
-            src="/images/profile.jpg"
+            src="/images/profile.png"
             alt="zion 프로필 사진"
             width={120}
             height={120}
@@ -92,12 +91,14 @@ export default function Home() {
                 <Link
                   key={post.slug}
                   href={`/blog/${post.slug}`}
-                  className="flex flex-wrap gap-x-3 gap-y-0.5 rounded px-1 py-0.5 transition-colors hover:bg-t-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-t-accent sm:flex-nowrap"
+                  className="block rounded px-1 py-1 transition-colors hover:bg-t-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-t-accent"
                 >
-                  <span className="hidden shrink-0 text-t-subtle sm:inline">-rw-r--r--</span>
-                  <span className="shrink-0 text-t-muted">{dateStr}</span>
-                  <span className="shrink-0 text-t-cyan">{tags}</span>
-                  <span className="w-full truncate text-t-fg sm:w-auto">
+                  <span className="flex gap-3">
+                    <span className="hidden shrink-0 text-t-subtle sm:inline">-rw-r--r--</span>
+                    <span className="shrink-0 text-t-muted">{dateStr}</span>
+                    <span className="shrink-0 text-t-cyan">{tags}</span>
+                  </span>
+                  <span className="block truncate text-t-fg sm:ml-[5.25rem]">
                     {post.frontmatter.title}
                   </span>
                 </Link>
