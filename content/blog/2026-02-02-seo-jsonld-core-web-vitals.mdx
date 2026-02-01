@@ -1,0 +1,408 @@
+---
+title: "JSON-LD 구조화 데이터와 Core Web Vitals 최적화"
+description: "검색 결과를 풍부하게 만드는 JSON-LD 구조화 데이터와, Google 랭킹에 영향을 주는 Core Web Vitals(LCP, INP, CLS)를 Next.js에서 최적화하는 법."
+date: "2026-02-02"
+tags: ["seo", "nextjs", "core-web-vitals", "json-ld"]
+published: true
+---
+
+## 이 글의 위치
+
+- [1편](/blog/2026-02-01-seo-fundamentals) — SEO 기초: 검색엔진의 동작 원리
+- [2편](/blog/2026-02-02-seo-nextjs-metadata) — Next.js SEO 실전: Metadata, OG, sitemap
+
+이 글은 3편이다. 검색 결과를 더 풍부하게 만드는 **구조화 데이터**와, 사용자 경험 지표인 **Core Web Vitals**를 다룬다.
+
+---
+
+## JSON-LD 구조화 데이터
+
+### 문제: 검색엔진은 HTML을 "이해"하지 못한다
+
+검색엔진은 HTML에서 텍스트를 추출할 수 있다. 하지만 그 텍스트의 **의미**는 정확히 모른다.
+
+```html
+<p>이성</p>
+<p>프론트엔드 개발자</p>
+<p>서울</p>
+```
+
+이게 사람 이름인지, 회사 이름인지, 제품 이름인지 알 수 없다. 구조화 데이터는 이 문제를 해결한다.
+
+### Schema.org
+
+**Schema.org**는 Google, Bing, Yahoo, Yandex가 공동으로 만든 표준이다. 웹 콘텐츠의 의미를 설명하는 어휘(vocabulary)를 정의한다.
+
+예를 들어:
+- `Person` — 사람 (이름, 직업, 소속)
+- `BlogPosting` — 블로그 글 (제목, 작성자, 작성일)
+- `Organization` — 조직 (이름, 로고, URL)
+- `BreadcrumbList` — 경로 탐색 (홈 > 블로그 > 글 제목)
+
+전체 목록: [schema.org/docs/full.html](https://schema.org/docs/full.html)
+
+### JSON-LD란
+
+**JSON-LD** (JSON for Linking Data)는 구조화 데이터를 JSON 형태로 HTML에 삽입하는 포맷이다. Google이 공식적으로 권장하는 방식이다.
+
+```html
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "이성",
+  "jobTitle": "프론트엔드 개발자",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "서울"
+  }
+}
+</script>
+```
+
+이제 검색엔진은 "이성"이 사람 이름이고, 직업이 프론트엔드 개발자라는 것을 **확실히** 안다.
+
+### Rich Results (리치 결과)
+
+구조화 데이터를 넣으면 검색 결과가 풍부해진다. 일반 검색 결과는 제목 + URL + 설명뿐이지만, 구조화 데이터가 있으면:
+
+- **블로그 글** — 작성자, 작성일, 이미지가 표시
+- **FAQ** — 질문과 답변이 검색 결과에 직접 펼쳐짐
+- **빵부스러기(Breadcrumb)** — URL 대신 경로가 표시 (`홈 > 블로그 > SEO 가이드`)
+- **별점/리뷰** — 별 아이콘과 리뷰 수가 표시
+
+이런 것들이 리치 결과다. 클릭률(CTR)이 크게 올라간다.
+
+### Next.js에서 JSON-LD 적용
+
+Server Component에서 `<script>` 태그로 삽입한다.
+
+```tsx
+// app/blog/[slug]/page.tsx
+export default async function BlogPost({ params }: Props) {
+  const { slug } = await params
+  const post = getPostBySlug(slug)
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.frontmatter.title,
+    description: post.frontmatter.description,
+    datePublished: post.frontmatter.date,
+    author: {
+      '@type': 'Person',
+      name: '이성',
+      url: 'https://example.com',
+    },
+  }
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <article>...</article>
+    </>
+  )
+}
+```
+
+### 자주 쓰는 Schema 타입
+
+**WebSite** — 사이트 전체 정보. 루트 레이아웃에 넣는다.
+
+```tsx
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: '이성 포트폴리오',
+  url: 'https://example.com',
+}
+```
+
+**BlogPosting** — 블로그 글. 각 글 페이지에 넣는다.
+
+```tsx
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: '제목',
+  description: '설명',
+  datePublished: '2026-02-01',
+  author: { '@type': 'Person', name: '이성' },
+}
+```
+
+**BreadcrumbList** — 경로 탐색. 검색 결과에 URL 대신 경로를 보여준다.
+
+```tsx
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: '홈',
+      item: 'https://example.com',
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: '블로그',
+      item: 'https://example.com/blog',
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: 'SEO 기초 가이드',
+    },
+  ],
+}
+```
+
+### 검증
+
+구조화 데이터가 올바른지 확인하는 도구:
+
+- [Google Rich Results Test](https://search.google.com/test/rich-results) — 리치 결과 자격 확인
+- [Schema Markup Validator](https://validator.schema.org/) — 문법 검증
+
+---
+
+## Core Web Vitals
+
+### Core Web Vitals란
+
+Google이 정의한 **사용자 경험을 측정하는 3가지 핵심 지표**다. 2021년부터 랭킹 요소에 포함되었다.
+
+| 지표 | 측정 대상 | 좋음 | 나쁨 |
+|------|----------|------|------|
+| **LCP** | 로딩 속도 | ≤ 2.5초 | > 4.0초 |
+| **INP** | 반응 속도 | ≤ 200ms | > 500ms |
+| **CLS** | 시각적 안정성 | ≤ 0.1 | > 0.25 |
+
+### LCP (Largest Contentful Paint)
+
+**뷰포트에서 가장 큰 콘텐츠가 보이기까지의 시간.**
+
+사용자가 "이 페이지가 로딩됐다"고 느끼는 시점이다. 보통 히어로 이미지, 큰 텍스트 블록, 비디오 등이 LCP 요소가 된다.
+
+**느려지는 원인:**
+- 큰 이미지를 최적화 없이 로딩
+- 웹폰트 로딩 중 텍스트가 안 보임 (FOIT)
+- 서버 응답이 느림 (TTFB가 길면 LCP도 길어짐)
+- JS 번들이 커서 렌더링 차단
+
+**Next.js에서 최적화:**
+
+```tsx
+// 1. next/image로 이미지 최적화
+import Image from 'next/image'
+
+// LCP 요소인 히어로 이미지에는 priority를 준다
+<Image
+  src="/hero.jpg"
+  alt="히어로 이미지"
+  width={1200}
+  height={600}
+  priority  // preload 힌트를 추가하여 빨리 로딩
+/>
+```
+
+```tsx
+// 2. next/font로 폰트 최적화
+import { Geist } from 'next/font/google'
+
+const geist = Geist({
+  subsets: ['latin'],
+  display: 'swap',  // 폰트 로딩 중에도 텍스트를 보여줌 (FOUT)
+})
+```
+
+```tsx
+// 3. 서버 컴포넌트 사용 (JS 번들 감소)
+// 기본이 서버 컴포넌트이므로, 불필요한 'use client'를 쓰지 않는 것이 핵심
+export default function HeroSection() {
+  return <h1>큰 텍스트</h1>  // JS 번들에 포함되지 않음
+}
+```
+
+### INP (Interaction to Next Paint)
+
+**사용자가 클릭/탭/키보드 입력 후, 화면이 업데이트되기까지의 시간.**
+
+버튼을 눌렀는데 아무 반응이 없는 느낌 — 그게 INP가 나쁜 것이다.
+
+**느려지는 원인:**
+- 클릭 핸들러에서 무거운 연산 실행
+- 큰 리렌더링 발생
+- 메인 스레드가 JS 실행으로 바쁨
+
+**Next.js에서 최적화:**
+
+```tsx
+// 1. 무거운 작업은 useTransition으로 우선순위를 낮춤
+'use client'
+import { useTransition } from 'react'
+
+function SearchResults() {
+  const [isPending, startTransition] = useTransition()
+
+  function handleChange(query: string) {
+    // 검색 결과 업데이트는 긴급하지 않으므로 transition으로 감싼다
+    startTransition(() => {
+      setResults(filterResults(query))
+    })
+  }
+
+  return (
+    <>
+      <input onChange={(e) => handleChange(e.target.value)} />
+      {isPending ? <p>검색 중...</p> : <ResultList />}
+    </>
+  )
+}
+```
+
+```tsx
+// 2. 무거운 컴포넌트는 dynamic import로 분리
+import dynamic from 'next/dynamic'
+
+const HeavyChart = dynamic(() => import('@/components/chart'), {
+  loading: () => <p>로딩 중...</p>,
+})
+```
+
+```tsx
+// 3. 'use client' 범위를 최소화
+// Bad: 페이지 전체를 클라이언트 컴포넌트로
+'use client'
+export default function Page() { ... }
+
+// Good: 인터랙션이 필요한 부분만 클라이언트 컴포넌트로
+export default function Page() {
+  return (
+    <main>
+      <StaticContent />         {/* 서버 컴포넌트 */}
+      <InteractiveWidget />     {/* 클라이언트 컴포넌트 */}
+    </main>
+  )
+}
+```
+
+### CLS (Cumulative Layout Shift)
+
+**페이지 로딩 중에 레이아웃이 얼마나 밀리는가.**
+
+글을 읽고 있는데 갑자기 이미지가 로딩되면서 텍스트가 아래로 밀려나는 경험 — 그게 CLS다.
+
+**발생하는 원인:**
+- 크기가 지정되지 않은 이미지/동영상
+- 나중에 삽입되는 광고, 배너
+- 웹폰트 로딩 후 글자 크기가 바뀜 (FOUT에서 글꼴 크기 차이)
+- 동적으로 추가되는 콘텐츠
+
+**Next.js에서 최적화:**
+
+```tsx
+// 1. next/image는 자동으로 width/height를 예약
+// 이미지 로딩 전에 공간을 확보하므로 레이아웃이 밀리지 않는다
+<Image
+  src="/photo.jpg"
+  alt="사진"
+  width={800}
+  height={400}
+/>
+```
+
+```tsx
+// 2. 폰트: display: swap + next/font의 size-adjust
+// next/font는 대체 폰트와 웹폰트의 크기 차이를 자동 조정한다
+import { Noto_Sans_KR } from 'next/font/google'
+
+const notoSansKr = Noto_Sans_KR({
+  subsets: ['latin'],
+  display: 'swap',
+  // next/font가 자동으로 size-adjust CSS를 생성하여 CLS를 줄인다
+})
+```
+
+```tsx
+// 3. 동적 콘텐츠에는 고정 높이를 확보
+// Bad
+{isLoaded && <Banner />}
+
+// Good — 로딩 전에도 공간을 확보
+<div className="min-h-[200px]">
+  {isLoaded ? <Banner /> : <Skeleton />}
+</div>
+```
+
+## 측정 도구
+
+Core Web Vitals를 측정하는 방법:
+
+**개발 중:**
+- Chrome DevTools → Performance 탭
+- Chrome DevTools → Lighthouse (SEO, Performance 카테고리)
+- [web-vitals](https://github.com/GoogleChrome/web-vitals) 라이브러리로 코드에서 직접 측정
+
+**배포 후:**
+- [PageSpeed Insights](https://pagespeed.web.dev/) — 실제 사용자 데이터(CrUX) + 시뮬레이션
+- [Google Search Console](https://search.google.com/search-console) — Core Web Vitals 리포트
+- Vercel Analytics — Next.js 배포 시 자동 측정
+
+```tsx
+// web-vitals로 직접 측정하는 예시
+// app/layout.tsx에서 사용
+
+// web-vitals-reporter.tsx
+'use client'
+
+import { useReportWebVitals } from 'next/web-vitals'
+
+export function WebVitalsReporter() {
+  useReportWebVitals((metric) => {
+    console.log(metric.name, metric.value)
+    // analytics로 전송할 수도 있다
+  })
+  return null
+}
+```
+
+## 정리: SEO 체크리스트
+
+3편에 걸쳐 다룬 내용을 체크리스트로 정리한다.
+
+**기본 설정:**
+- [ ] `metadata` 또는 `generateMetadata`로 title, description 설정
+- [ ] `title.template`으로 일관된 브랜딩
+- [ ] `robots.ts`로 크롤러 접근 제어
+- [ ] `sitemap.ts`로 페이지 목록 제공
+
+**소셜 미디어:**
+- [ ] Open Graph 태그 설정 (title, description, image)
+- [ ] Twitter Card 설정
+- [ ] OG 이미지 1200x630px 준비
+
+**구조화 데이터:**
+- [ ] 사이트에 `WebSite` JSON-LD
+- [ ] 블로그 글에 `BlogPosting` JSON-LD
+- [ ] `BreadcrumbList`로 경로 탐색
+- [ ] Google Rich Results Test로 검증
+
+**Core Web Vitals:**
+- [ ] `next/image`에 `priority`로 LCP 최적화
+- [ ] `next/font`로 폰트 최적화 (CLS + LCP)
+- [ ] `'use client'` 범위 최소화 (INP + LCP)
+- [ ] 이미지에 width/height 지정 (CLS)
+- [ ] PageSpeed Insights로 측정
+
+## 참고
+
+- [Next.js Metadata API 공식 문서](https://nextjs.org/docs/app/building-your-application/optimizing/metadata)
+- [Google Search Central — 구조화 데이터 가이드](https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data)
+- [web.dev — Core Web Vitals](https://web.dev/articles/vitals)
+- [Schema.org 전체 타입 목록](https://schema.org/docs/full.html)
