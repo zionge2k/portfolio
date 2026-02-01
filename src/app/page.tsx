@@ -1,9 +1,8 @@
 import dynamic from "next/dynamic";
-import Image from "next/image";
 import Link from "next/link";
 import CommandBlock from "@/components/command-block";
 import { getAllPosts } from "@/lib/blog";
-import { GITHUB_USERNAME } from "@/lib/constants";
+import { GITHUB_USERNAME, ZION_ASCII } from "@/lib/constants";
 
 const GitHubCalendarSection = dynamic(
   () => import("@/components/github-calendar"),
@@ -27,14 +26,20 @@ export default function Home() {
       {/* Hero — neofetch */}
       <CommandBlock command="neofetch" aria-label="neofetch">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
-          <Image
-            src="/images/profile.png"
-            alt="zion 프로필 사진"
-            width={120}
-            height={120}
-            className="shrink-0 rounded-lg"
-            priority
-          />
+          <div className="shrink-0" aria-hidden="true">
+            <pre className="text-[0.5rem] leading-[1.1] tracking-[0]">
+              {ZION_ASCII[0].lines.map((_, lineIdx) => (
+                <span key={lineIdx} className="block">
+                  {ZION_ASCII.map((letter) => (
+                    <span key={letter.letter} className={letter.colorClass}>
+                      {letter.lines[lineIdx]}
+                    </span>
+                  ))}
+                </span>
+              ))}
+            </pre>
+          </div>
+          <span className="sr-only">ZION</span>
           <div className="min-w-0 space-y-1 text-sm">
             <p className="font-semibold text-t-fg">
               zion<span className="text-t-muted">@</span>portfolio

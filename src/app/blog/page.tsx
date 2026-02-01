@@ -41,7 +41,7 @@ export default async function BlogPage() {
                 <span className="flex gap-2">
                   <span className="shrink-0 text-t-red">*</span>
                   <span className="shrink-0 text-t-yellow">{hash}</span>
-                  <span className="shrink-0 text-t-yellow">
+                  <span className="min-w-0 truncate text-t-yellow">
                     (
                     {isFirst && (
                       <>
@@ -58,7 +58,7 @@ export default async function BlogPage() {
                     ))}
                     )
                   </span>
-                  <span className="shrink-0 text-t-muted">{dateStr}</span>
+                  <span className="hidden shrink-0 text-t-muted sm:inline">{dateStr}</span>
                 </span>
                 <span className="ml-7 block truncate text-t-fg">
                   {post.frontmatter.title}
