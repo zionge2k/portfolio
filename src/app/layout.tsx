@@ -34,10 +34,10 @@ export default function RootLayout({
         <meta name="theme-color" content="#ffffff" />
       </head>
       <body
-        className={`${pretendard.variable} ${jetbrainsMono.variable} font-mono antialiased`}
+        className={`${pretendard.variable} ${jetbrainsMono.variable} flex min-h-screen flex-col font-mono antialiased`}
       >
         <Nav />
-        <main className="mx-auto max-w-3xl px-6 py-16">{children}</main>
+        <main className="mx-auto w-full max-w-3xl flex-1 px-6 pt-16 pb-24">{children}</main>
         <Footer />
       </body>
     </html>

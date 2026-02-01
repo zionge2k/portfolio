@@ -1,0 +1,72 @@
+---
+title: "Spring MVC Path Variable과 정적 경로 충돌 해결"
+description: "Spring MVC에서 @PathVariable과 정적 경로가 충돌할 때 정규식 패턴으로 해결하는 방법"
+date: "2026-01-29"
+tags: ["spring", "spring-mvc", "rest-api"]
+published: true
+---
+
+## 시나리오
+
+Spring Boot에서 게시글 API를 개발 중, 기존 단건 삭제 API(`DELETE /posts/{postId}`) 외에 복수 삭제 API(`DELETE /posts/batch`)를 추가하는 작업을 진행했다.
+
+## 문제 / 발견
+
+`DELETE /api/v1/posts/batch` 요청을 보냈는데, 다음 에러가 발생했다:
+
+```
+MethodArgumentTypeMismatchException: Method parameter 'postId':
+Failed to convert value of type 'java.lang.String' to required type 'java.lang.Long';
+For input string: "batch"
+```
+
+`/posts/batch` 요청이 `/posts/{postId}` 엔드포인트에 매칭되어, "batch" 문자열을 Long으로 변환하려다 실패한 것이다.
+
+## 원인 / 이유
+
+Spring MVC에서 동적 경로(`/{postId}`)와 정적 경로(`/batch`)가 같은 레벨에 있을 때, **메서드 선언 순서와 무관하게** 동적 경로가 먼저 매칭될 수 있다.
+
+일반적으로 Spring은 "더 구체적인 경로를 우선 매칭"한다고 알려져 있지만, 실제로는 그렇게 동작하지 않는 경우가 있다.
+
+## 해결 / 핵심 포인트
+
+**Path Variable에 정규식을 적용하여 숫자만 매칭되도록 제한한다.**
+
+`{postId:\\d+}` 형식으로 정규식을 추가하면:
+- `postId`가 숫자(`\d+`)일 때만 해당 엔드포인트에 매칭
+- `/posts/batch` 요청은 이 패턴에 매칭되지 않으므로 `/batch` 엔드포인트로 라우팅
+
+이 방법은 "postId는 숫자여야 한다"는 의도를 코드에 명시적으로 표현하는 **방어적 코딩**이기도 하다.
+
+## 코드
+
+```java
+// Before: 정적 경로 /batch와 충돌 가능
+@DeleteMapping("/{postId}")
+public ResponseEntity<Void> deletePost(@PathVariable("postId") Long postId) { }
+
+@DeleteMapping("/batch")
+public ResponseEntity<Void> deletePosts(@RequestBody BatchDeleteRequest request) { }
+
+// After: 정규식으로 숫자만 매칭
+@DeleteMapping("/{postId:\\d+}")
+public ResponseEntity<Void> deletePost(@PathVariable("postId") Long postId) { }
+
+@DeleteMapping("/batch")
+public ResponseEntity<Void> deletePosts(@RequestBody BatchDeleteRequest request) { }
+```
+
+**적용해야 할 모든 엔드포인트:**
+```java
+@GetMapping("/{postId:\\d+}")
+@PutMapping("/{postId:\\d+}")
+@DeleteMapping("/{postId:\\d+}")
+@GetMapping("/{postId:\\d+}/adjacent")
+@PostMapping("/{postId:\\d+}/pin")
+```
+
+## 참고
+
+- Spring MVC Path Matching: https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller/ann-requestmapping.html
+- 정규식 패턴: `\d+` = 하나 이상의 숫자
+- Java 문자열에서는 `\\d+`로 이스케이프 필요

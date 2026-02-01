@@ -18,7 +18,7 @@ export default function Nav() {
   }
 
   return (
-    <header className="border-b border-t-border">
+    <header className="sticky top-0 z-10 border-b border-t-border bg-t-bg">
       <nav
         aria-label="메인 내비게이션"
         className="mx-auto flex max-w-3xl items-center px-6"

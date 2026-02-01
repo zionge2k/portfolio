@@ -169,9 +169,13 @@ Tailwind 기본 브레이크포인트를 사용한다:
 react-github-calendar
 pretendard
 @tailwindcss/typography
+remark-gfm
+rehype-pretty-code shiki
 ```
 
 - `@tailwindcss/typography`: MDX 렌더링 시 `prose` 클래스로 타이포그래피 스타일 적용
+- `remark-gfm`: GFM 확장 문법 (테이블, 취소선, 자동링크 등) 지원
+- `rehype-pretty-code` + `shiki`: 코드 블록 구문 강조
 - `react-icons`: 제거됨 (터미널 컨셉에 맞게 ASCII 문자 `>`, `-`, `$`로 대체)
 
 ---
@@ -196,6 +200,34 @@ Next.js Image 컴포넌트는 빌드 시 이미지 존재 여부를 검증하지
 ### 소셜 링크 placeholder
 
 `src/lib/constants.ts`의 GitHub, LinkedIn, Email URL은 placeholder. 사용자가 실제 값으로 교체 필요.
+
+### remark-gfm 추가
+
+MDX 코드 블록 내 테이블(`| col |`)이 렌더링되지 않는 문제 발견.
+테이블은 GFM(GitHub Flavored Markdown) 확장 문법이므로 `remark-gfm` 플러그인 추가.
+
+### rehype-pretty-code 구문 강조
+
+블로그 코드 블록의 가독성 향상을 위해 `rehype-pretty-code`(Shiki 기반) 도입.
+Turbopack의 MDX 로더 옵션 직렬화 제약으로 인해 `rehypePrettyCode` 함수를 직접 전달할 수 없음.
+`src/lib/rehype-code.mjs` 래퍼 모듈을 만들어 `process.cwd()` 절대 경로로 참조하는 방식으로 우회.
+`mdx-components.tsx`의 `Code` 컴포넌트에서 `data-language` 속성 유무로 코드 블록 내 `<code>`(Shiki 스타일 유지)와 인라인 코드(커스텀 스타일)를 구분.
+
+### 반응형 수정
+
+- `layout.tsx`의 `<main>`에 `w-full` 추가: flex 자식이 `max-w-3xl`만으로는 뷰포트보다 좁은 너비에서 content width(768px)로 확장되어 오버플로우 발생
+- GitHub 캘린더: `[&_svg]:h-auto [&_svg]:w-full`로 SVG가 컨테이너 너비에 맞게 축소
+- 블로그 포스트 목록(홈): `flex-wrap`, 모바일에서 `-rw-r--r--` 숨김, 제목 `w-full truncate`
+
+### Footer 드롭업 메뉴
+
+모바일/태블릿에서 키보드 전용 쉘 네비게이션을 사용할 수 없는 문제 해결.
+입력 영역 클릭 시 드롭업 메뉴 토글, 외부 클릭 시 닫힘 동작 추가.
+
+### TIL 포스트 마이그레이션
+
+`~/projects/2nd_brain/til/` 디렉토리의 2026년 TIL 5개를 MDX 형식으로 변환.
+원본 frontmatter에 없는 `description`, `published` 필드 추가, `date`/`tags` 값을 따옴표 문자열로 정규화, 중복 `# Title` 헤딩 제거.
 
 ---
 

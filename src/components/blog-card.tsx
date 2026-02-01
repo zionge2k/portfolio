@@ -29,7 +29,7 @@ export default function BlogCard({
       <span className="shrink-0 text-t-subtle">-rw-r--r--</span>
       <span className="shrink-0 text-t-muted">{dateStr}</span>
       <span className="shrink-0 text-t-cyan">{tagStr}</span>
-      <span className="truncate text-t-fg">{title}</span>
+      <span className="min-w-0 truncate text-t-fg">{title}</span>
     </Link>
   );
 }

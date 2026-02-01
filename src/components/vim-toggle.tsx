@@ -16,6 +16,7 @@ export default function VimToggle({
     <div>
       <button
         type="button"
+        aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
         className="rounded text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-t-accent"
       >

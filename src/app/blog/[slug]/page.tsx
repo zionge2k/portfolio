@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getAllSlugs, getPostBySlug } from "@/lib/blog";
-import Prompt from "@/components/prompt";
+import CommandBlock from "@/components/command-block";
 
 export async function generateStaticParams() {
   return getAllSlugs().map((slug) => ({ slug }));
@@ -39,9 +39,8 @@ export default async function BlogPostPage({
 
   return (
     <article>
-      <header className="mb-8 space-y-2">
-        <Prompt command={`vim ~/blog/${slug}.mdx`} />
-        <div className="mt-4 space-y-1 text-sm">
+      <CommandBlock as="header" command={`vim ~/blog/${slug}.mdx`} className="mb-8">
+        <div className="space-y-1 text-sm">
           <p>
             <span className="text-t-blue">title</span>
             <span className="text-t-muted">{": "}</span>
@@ -67,7 +66,7 @@ export default async function BlogPostPage({
           </p>
           <p className="text-t-border" aria-hidden="true">───────────────────────────</p>
         </div>
-      </header>
+      </CommandBlock>
       <div className="prose prose-lg max-w-none font-mono">
         <MDXContent />
       </div>

@@ -29,14 +29,14 @@
 
 **Hero 섹션 (neofetch 스타일)**
 - `$ neofetch` 프롬프트 후 프로필 이미지 + key-value 정보 표시
-- OS, Role, Lang, Editor, Uptime 항목
+- OS, Role, Lang, Terminal, Shell, Editor, Uptime, GitHub 항목
 
 **GitHub Contributions 섹션**
 - `$ gh contributions --user {username}` 프롬프트
 - GitHub 잔디를 green 계열 테마로 표시, border + surface 배경으로 감싸 이질감 감소
 
 **최근 블로그 글 섹션**
-- `$ ls -la ~/blog/recent` 프롬프트
+- `$ ls -lt ~/blog | head -3` 프롬프트 — 전체 글 수 표시, 최근 3개만 노출
 - 파일 시스템 목록 스타일: `-rw-r--r-- Jan 31 2026 [tag] title`
 - `$ cd ~/blog` 링크로 블로그 페이지 이동
 
@@ -55,18 +55,20 @@
 #### 3. Blog 페이지 (`/blog`)
 
 **목록 페이지 (`/blog`)**
-- `$ ls -la ~/blog/` 프롬프트
-- 파일 시스템 목록 스타일: permissions + date + `[tag]` + title
-- 태그는 `[bracket]` 형식
+- `$ git log --oneline --decorate` 프롬프트
+- git log 스타일: `* {hash} (tag: a, b) {date} {title}` — 제목은 두 번째 줄에 들여쓰기
+- 태그는 `tag: ` 접두어를 첫 태그에만 붙이고 나머지는 쉼표로 연결
 
 **상세 페이지 (`/blog/[slug]`)**
 - `$ vim ~/blog/{slug}.mdx` 프롬프트
 - frontmatter를 key-value 형식 메타데이터로 표시
 - MDX 콘텐츠는 prose + font-mono
+- 코드 블록에 구문 강조(syntax highlighting) 및 언어 라벨 표시
 
 ### 콘텐츠 관리
 
 - 블로그 글은 MDX 파일로 관리한다
+- 기존 TIL(Today I Learned) 글을 MDX 형식으로 변환하여 블로그에 게시한다
 - 추후 CMS 연동을 고려하여 콘텐츠 레이어를 분리 가능하게 설계한다
 
 ## 비기능 요구사항

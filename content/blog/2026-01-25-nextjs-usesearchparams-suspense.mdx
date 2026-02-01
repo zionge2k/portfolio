@@ -1,0 +1,114 @@
+---
+title: "Next.js에서 useSearchParams 쓰면 Suspense 필수"
+description: "Next.js에서 useSearchParams를 사용할 때 Suspense boundary가 필요한 이유와 서버/클라이언트 컴포넌트 분리 패턴"
+date: "2026-01-25"
+tags: ["nextjs", "react", "suspense"]
+published: true
+---
+
+## 시나리오
+
+비로그인 사용자가 AI 비교 분석 버튼을 눌렀을 때, 설문조사 페이지로 이동시키고 완료 후 원래 페이지로 돌아오게 하고 싶었다.
+
+그래서 survey 페이지에서 `returnUrl` 파라미터를 읽기 위해 `useSearchParams()`를 추가했다.
+
+```tsx
+const searchParams = useSearchParams()
+const returnUrl = searchParams.get('returnUrl')
+```
+
+## 문제 / 발견
+
+`pnpm build` 하니까 에러가 터졌다:
+
+```
+Error: useSearchParams() should be wrapped in a suspense boundary at page "/mypage/survey"
+```
+
+## 원인 / 이유
+
+Next.js는 빌드할 때 페이지를 미리 만들어둔다 (정적 생성).
+근데 `searchParams`는 사용자가 접속할 때마다 다르다 (`?returnUrl=/cart/compare`).
+
+그래서 Next.js 입장에서는:
+- "빌드할 때 searchParams 값을 모르겠는데?"
+- "그럼 이 부분은 나중에 브라우저에서 로딩해야겠다"
+- "로딩 중에 뭘 보여줄지 Suspense로 알려줘!"
+
+## 해결 / 핵심 포인트
+
+**페이지를 서버/클라이언트로 분리하고 Suspense로 감싼다.**
+
+```tsx
+// page.tsx (서버 컴포넌트 - 'use client' 없음)
+import { Suspense } from 'react'
+import { SurveyPageClient } from './survey-page-client'
+
+export default function SurveyPage() {
+  return (
+    <Suspense fallback={null}>
+      <SurveyPageClient />
+    </Suspense>
+  )
+}
+```
+
+```tsx
+// survey-page-client.tsx (클라이언트 컴포넌트)
+'use client'
+
+import { useSearchParams } from 'next/navigation'
+
+export function SurveyPageClient() {
+  const searchParams = useSearchParams()
+  const returnUrl = searchParams.get('returnUrl')
+
+  // ... 나머지 로직
+}
+```
+
+## 코드
+
+**Before** (빌드 에러):
+```tsx
+// page.tsx
+'use client'
+
+import { useSearchParams } from 'next/navigation'
+
+export default function SurveyPage() {
+  const searchParams = useSearchParams()  // 에러!
+  return <div>...</div>
+}
+```
+
+**After** (정상 동작):
+```tsx
+// page.tsx
+import { Suspense } from 'react'
+import { Client } from './client'
+
+export default function SurveyPage() {
+  return (
+    <Suspense fallback={null}>
+      <Client />
+    </Suspense>
+  )
+}
+
+// client.tsx
+'use client'
+import { useSearchParams } from 'next/navigation'
+
+export function Client() {
+  const searchParams = useSearchParams()  // OK
+  return <div>...</div>
+}
+```
+
+## 참고
+
+- `fallback={null}`은 로딩 중에 아무것도 안 보여주겠다는 뜻
+- 로딩 스피너를 보여주고 싶으면 `fallback={<Loading />}`
+- `loading.tsx` 파일을 만들면 자동으로 Suspense 역할을 해줌
+- `useSearchParams` 뿐만 아니라 이걸 내부에서 쓰는 커스텀 훅도 마찬가지

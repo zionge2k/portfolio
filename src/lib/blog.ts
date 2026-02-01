@@ -15,7 +15,7 @@ export function slugToHash(slug: string): string {
   return (hash >>> 0).toString(16).padStart(7, "0").slice(0, 7);
 }
 
-export function getAllPosts(): Post[] {
+export const getAllPosts = cache(function getAllPosts(): Post[] {
   if (!fs.existsSync(BLOG_DIR)) return [];
 
   const files = fs.readdirSync(BLOG_DIR).filter((f) => f.endsWith(".mdx"));
@@ -39,7 +39,7 @@ export function getAllPosts(): Post[] {
         new Date(b.frontmatter.date).getTime() -
         new Date(a.frontmatter.date).getTime(),
     );
-}
+});
 
 export const getPostBySlug = cache(function getPostBySlug(slug: string): Post | undefined {
   const filePath = path.join(BLOG_DIR, `${slug}.mdx`);

@@ -1,0 +1,100 @@
+---
+title: "GitLab Self-hosted Runner Docker Socket 바인딩"
+description: "GitLab Self-hosted Runner에서 Docker-in-Docker 대신 Socket 바인딩을 사용하는 방법과 DinD와의 차이점"
+date: "2026-01-27"
+tags: ["gitlab", "ci-cd", "docker", "devops"]
+published: true
+---
+
+## 시나리오
+
+gitlab.com의 무료 CI/CD 분(400분/월) 한도를 우회하기 위해 온프레미스 서버에 Self-hosted GitLab Runner를 설치하는 작업을 진행했다.
+
+## 문제 / 발견
+
+기존 `.gitlab-ci.yml`은 **Docker-in-Docker (DinD)** 방식을 사용:
+
+```yaml
+services:
+  - docker:24-dind
+variables:
+  DOCKER_HOST: tcp://docker:2375
+```
+
+Self-hosted Runner에서 이 설정을 그대로 사용하면 `Cannot connect to the Docker daemon at tcp://docker:2375` 에러 발생.
+
+## 원인 / 이유
+
+**DinD vs Socket 바인딩 차이**:
+
+| 방식 | 설명 | 사용 환경 |
+|------|------|----------|
+| DinD | 컨테이너 안에서 Docker daemon 실행 | Shared Runner (격리 필요) |
+| Socket 바인딩 | Host의 Docker daemon 공유 | Self-hosted Runner (신뢰 환경) |
+
+- **Shared Runner**: 여러 사용자가 공유하므로 DinD로 격리 필요
+- **Self-hosted Runner**: 전용 서버이므로 Host Docker를 직접 사용 가능
+
+## 해결 / 핵심 포인트
+
+### 1. Runner 등록 시 Socket 마운트
+
+```bash
+sudo gitlab-runner register \
+  --executor "docker" \
+  --docker-volumes "/var/run/docker.sock:/var/run/docker.sock"
+```
+
+### 2. config.toml 확인
+
+```toml
+[[runners]]
+  [runners.docker]
+    volumes = ["/var/run/docker.sock:/var/run/docker.sock"]
+    privileged = false  # DinD가 아니므로 불필요
+```
+
+### 3. .gitlab-ci.yml 수정
+
+```yaml
+# 제거
+# services:
+#   - docker:24-dind
+# variables:
+#   DOCKER_HOST: tcp://docker:2375
+
+# Socket 바인딩 사용 (설정 불필요, Runner가 마운트함)
+build:
+  image: docker:27
+  script:
+    - docker build -t myimage .
+```
+
+## 코드
+
+**Before (.gitlab-ci.yml)**:
+```yaml
+build-dev:
+  image: docker:24
+  services:
+    - docker:24-dind
+  variables:
+    DOCKER_HOST: tcp://docker:2375
+  script:
+    - docker build ...
+```
+
+**After (.gitlab-ci.yml)**:
+```yaml
+build-dev:
+  image: docker:27
+  # Self-hosted Runner uses Docker socket binding (no DinD needed)
+  script:
+    - docker build ...
+```
+
+## 참고
+
+- [GitLab Runner Executors - Docker](https://docs.gitlab.com/runner/executors/docker.html)
+- [Use Docker to build Docker images](https://docs.gitlab.com/ee/ci/docker/using_docker_build.html)
+- Socket 바인딩 시 Host Docker와 동일한 네트워크/볼륨 접근 가능
