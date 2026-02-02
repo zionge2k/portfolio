@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import CommandBlock from "@/components/command-block";
+import ImageModal from "@/components/image-modal";
 import { VimBuffer, Line } from "@/components/vim-buffer";
 import VimToggle from "@/components/vim-toggle";
 
@@ -14,13 +14,13 @@ export default function AboutPage() {
     <div className="space-y-6">
       {/* Profile */}
       <CommandBlock command="vim ~/about/profile.md" aria-label="프로필">
-        <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
-          <Image
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-stretch">
+          <ImageModal
             src="/images/profile.png"
             alt="이성 프로필 사진"
             width={128}
-            height={128}
-            className="shrink-0 rounded-lg"
+            height={176}
+            className="rounded-lg object-cover sm:h-full sm:w-auto"
             priority
           />
           <VimBuffer filename="~/about/profile.md">
@@ -42,6 +42,13 @@ export default function AboutPage() {
               <span className="text-t-muted">: </span>
               <span className="text-t-fg">
                 한국방송통신대학교 컴퓨터과학과 재학 중
+              </span>
+            </Line>
+            <Line n={5}>
+              <span className="text-t-blue">Focus</span>
+              <span className="text-t-muted">: </span>
+              <span className="text-t-fg">
+                문서 주도 개발 & AI 협업 환경 최적화
               </span>
             </Line>
           </VimBuffer>
@@ -144,8 +151,9 @@ export default function AboutPage() {
               {"  "}백엔드 리드 · 5인 개발 · 2025 – 현재
             </p>
             <p className="text-t-muted">
-              {"  "}개발자 준비생을 위한 부트캠프 비교 플랫폼. 최우수상 수상 후
-              런칭하여 유지보수 및 신규 기능 개발 중.
+              {"  "}개발자 준비생을 위한 부트캠프 비교 플랫폼.{" "}
+              <span className="font-bold text-t-accent">최우수상 수상 후 런칭</span>하여
+              유지보수 및 신규 기능 개발 중.
             </p>
             <VimToggle
               defaultOpen

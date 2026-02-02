@@ -6,7 +6,7 @@ export function VimBuffer({
   children: React.ReactNode;
 }) {
   return (
-    <div className="rounded border border-t-border bg-t-surface text-sm">
+    <div className="min-w-0 flex-1 rounded border border-t-border bg-t-surface text-sm">
       <div className="border-b border-t-border px-3 py-1 text-xs text-t-muted">
         {filename} [readonly]
       </div>
