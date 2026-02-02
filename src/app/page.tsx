@@ -27,12 +27,25 @@ export default function Home() {
       <CommandBlock command="neofetch" aria-label="neofetch">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
           <div className="shrink-0" aria-hidden="true">
-            <pre className="text-[0.5rem] leading-[1.1] tracking-[0]">
+            {/* 모바일: 가로 배치 */}
+            <pre className="text-[0.5rem] leading-[1.1] tracking-[0] sm:hidden">
               {ZION_ASCII[0].lines.map((_, lineIdx) => (
                 <span key={lineIdx} className="block">
                   {ZION_ASCII.map((letter) => (
                     <span key={letter.letter} className={letter.colorClass}>
                       {letter.lines[lineIdx]}
+                    </span>
+                  ))}
+                </span>
+              ))}
+            </pre>
+            {/* 데스크탑: 세로 배치 */}
+            <pre className="hidden text-[0.5rem] leading-[1.1] tracking-[0] sm:block">
+              {ZION_ASCII.map((letter) => (
+                <span key={letter.letter} className={`block ${letter.colorClass}${letter.letter === "I" ? " text-center" : ""}`}>
+                  {letter.lines.map((line, lineIdx) => (
+                    <span key={lineIdx} className="block">
+                      {line}
                     </span>
                   ))}
                 </span>
