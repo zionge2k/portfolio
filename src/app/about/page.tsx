@@ -305,13 +305,11 @@ export default function AboutPage() {
                 name: "한국소프트웨어기술진흥협회 (KOSTA)",
                 detail:
                   "클라우드 네이티브 애플리케이션 개발(CNA) 전문가 양성과정 · 2025.07 – 2025.12",
-                stack: "Java, Spring, JPA, React, MySQL",
               },
               {
                 name: "스파르타코딩클럽",
                 detail:
                   "내일배움캠프 AI 백엔드 개발자 양성과정 1기 · 2021.12 – 2022.04",
-                stack: "Python, Django, Flask, MySQL",
               },
             ];
             let lineNum = 0;
@@ -344,8 +342,8 @@ export default function AboutPage() {
         <VimBuffer filename="~/status/now.md">
           {[
             "한국방송통신대학교 컴퓨터과학과에서 CS 기초를 다지고 있습니다.",
-            "Spring Boot + JPA 기반 백엔드 아키텍처를 깊이 있게 학습하고 있습니다.",
-            "문서 주도 개발 프로세스와 AI 협업 환경 최적화에 관심을 갖고 개인 프로젝트를 진행하고 있습니다.",
+            "도메인 지식을 빠르게 습득하고, 동작하는 프로덕트를 먼저 만들어 검증하는 방식을 지향합니다.",
+            "문서 주도 개발 프로세스와 AI 자동화, DX(Developer Experience) 개선에 관심을 갖고 개인 프로젝트를 진행하고 있습니다.",
           ].map((item, i) => (
             <Line key={item} n={i + 1}>
               <span className="text-t-green" aria-hidden="true">
