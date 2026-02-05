@@ -313,7 +313,7 @@ export default function AboutPage() {
               },
             ];
             let lineNum = 0;
-            return entries.map(({ name, detail, stack }) => (
+            return entries.map(({ name, detail }) => (
               <div key={name} className="mb-1">
                 <Line n={++lineNum}>
                   <span className="text-t-fg">[{name}]</span>
@@ -324,13 +324,6 @@ export default function AboutPage() {
                     {detail}
                   </span>
                 </Line>
-                {stack && (
-                  <Line n={++lineNum}>
-                    <span className="text-t-subtle">
-                      {"  "}# {stack}
-                    </span>
-                  </Line>
-                )}
               </div>
             ));
           })()}
