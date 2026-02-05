@@ -1,0 +1,183 @@
+---
+title: "CLAUDE.md 수정 전략: 2-Tier Progressive Disclosure"
+description: "모노레포에서 CLAUDE.md가 비대해지는 문제를 해결하는 2계층 구조와 5가지 콘텐츠 설계 패턴."
+date: "2026-02-05"
+tags: ["claude-code", "ai", "developer-experience"]
+published: true
+---
+
+## 문제: CLAUDE.md가 점점 커진다
+
+Claude Code를 프로젝트에 도입하면 CLAUDE.md에 규칙을 추가하게 된다. 처음에는 몇 줄이지만, 시간이 지나면 수백 줄이 된다. 특히 모노레포에서는 각 패키지마다 다른 규칙이 필요하므로 더 빠르게 비대해진다.
+
+문제는 두 가지다.
+
+**1. 토큰 비효율**
+
+Claude가 매 대화마다 전체 CLAUDE.md를 로드한다. 500줄 중 현재 작업과 관련된 건 20줄인데, 480줄의 토큰을 낭비한다.
+
+**2. 규칙 희석**
+
+핵심 규칙이 상세 패턴 사이에 묻힌다. "barrel import 금지"라는 중요 규칙이 10개의 코드 예제 사이에 있으면 Claude가 놓칠 수 있다.
+
+## 해결책: 2-Tier Progressive Disclosure
+
+정보를 두 계층으로 분리한다.
+
+| 계층 | 위치 | 내용 | 형식 |
+|-----|------|------|------|
+| **Tier 1** | CLAUDE.md | "무엇을 / 하지 마라" | 테이블, 불릿 포인트 |
+| **Tier 2** | .context/ | "어떻게 하라" | 완전한 코드 예제 |
+
+### Tier 1: CLAUDE.md
+
+핵심만 담는다. Claude가 빠르게 스캔하고, 필요하면 Tier 2를 참조하도록 한다.
+
+```markdown
+## API 규칙
+
+| 하지 마라 | 해라 |
+|----------|------|
+| barrel import | 직접 경로 import |
+| any 타입 | unknown + type guard |
+| 중첩 삼항 | if문 또는 early return |
+
+상세: `.context/api-patterns.md` 참조
+```
+
+### Tier 2: .context/
+
+상세 설명과 코드 예제를 담는다. Claude가 특정 작업을 할 때만 읽는다.
+
+```markdown
+<!-- .context/api-patterns.md -->
+
+## barrel import를 피해야 하는 이유
+
+barrel import는 tree-shaking을 방해한다.
+사용하지 않는 모듈도 번들에 포함된다.
+
+### Bad
+\`\`\`ts
+import { Button, Input, Modal } from '@/components';
+\`\`\`
+
+### Good
+\`\`\`ts
+import { Button } from '@/components/button';
+\`\`\`
+```
+
+## 콘텐츠 설계 5가지 패턴
+
+CLAUDE.md를 효과적으로 작성하는 5가지 패턴이다.
+
+### 1. 포함/미포함 테이블
+
+한눈에 경계를 파악할 수 있다.
+
+```markdown
+| 이 디렉토리에 포함 | 포함하지 않음 |
+|------------------|--------------|
+| API 라우트 핸들러 | 비즈니스 로직 |
+| 요청/응답 변환 | DB 쿼리 |
+| 인증 미들웨어 | 유틸리티 함수 |
+```
+
+### 2. 금지/필수 이진 분류
+
+"어떻게"가 아닌 "무엇"만 명시한다.
+
+```markdown
+## 금지
+- `any` 타입 사용
+- `console.log` 커밋
+- 매직 넘버
+
+## 필수
+- 에러 바운더리 사용
+- 타입 가드로 narrowing
+- 상수는 UPPER_CASE
+```
+
+### 3. 명시적 크로스 레퍼런스
+
+관련 문서를 연결한다. Claude가 컨텍스트를 확장할 수 있다.
+
+```markdown
+API 에러 처리는 `.context/error-handling.md`를 따른다.
+DB 스키마는 `packages/db/CLAUDE.md`를 참조한다.
+```
+
+### 4. 올바른/오류 코드 비교
+
+Bad/Good 예제를 짧게 보여준다. 상세 설명은 Tier 2로.
+
+```markdown
+<!-- Bad -->
+const data = await fetchUser();
+const posts = await fetchPosts(data.id);
+
+<!-- Good -->
+const [user, posts] = await Promise.all([
+  fetchUser(),
+  fetchPosts(userId)
+]);
+
+자세한 내용: `.context/async-patterns.md`
+```
+
+### 5. 추상 원칙의 실무화
+
+"관심사 분리"같은 추상적 원칙을 구체적 규칙으로 바꾼다.
+
+```markdown
+## 관심사 분리 (이 프로젝트에서의 의미)
+
+- API 라우트: HTTP 처리만. 비즈니스 로직 금지
+- Service: 비즈니스 로직만. DB 직접 접근 금지
+- Repository: DB 접근만. 비즈니스 판단 금지
+```
+
+## 프로젝트별 구조 예시
+
+### 서버 (모듈 경계가 명확한 경우)
+
+문서를 분산시킨다. 각 모듈이 자신의 규칙을 관리한다.
+
+```
+server/
+├── CLAUDE.md              # 전역 규칙
+├── .context/
+│   ├── error-handling.md
+│   └── logging.md
+├── packages/
+│   ├── api/
+│   │   ├── CLAUDE.md      # API 전용 규칙
+│   │   └── .context/
+│   ├── db/
+│   │   └── CLAUDE.md
+│   └── auth/
+│       └── CLAUDE.md
+```
+
+### 클라이언트 (규칙이 공유되는 경우)
+
+중앙에서 통합 관리한다.
+
+```
+client/
+├── CLAUDE.md              # 모든 규칙
+└── .context/
+    └── component-patterns.md
+```
+
+## 핵심 정리
+
+1. **Tier 1 (CLAUDE.md)**: 스캔 가능한 요약. 테이블과 불릿.
+2. **Tier 2 (.context/)**: 상세 예제와 설명.
+3. **크로스 레퍼런스**: Claude가 필요할 때 Tier 2를 읽도록 유도.
+4. **Bad/Good 쌍**: 짧은 비교로 규칙을 각인.
+5. **프로젝트에 맞게**: 모듈 경계에 따라 분산 또는 통합.
+
+CLAUDE.md는 **목차**고, .context/는 **본문**이다. 목차만 읽어도 전체 구조를 파악할 수 있어야 한다.
