@@ -39,7 +39,7 @@ export default async function BlogPostPage({
 
   return (
     <article>
-      <CommandBlock as="header" command={`vim ~/blog/${slug}.mdx`} className="mb-8">
+      <CommandBlock as="header" command={`vim ~/log/${slug}.mdx`} className="mb-8">
         <div className="space-y-1 text-sm">
           <p>
             <span className="text-t-blue">title</span>
