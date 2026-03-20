@@ -71,7 +71,7 @@ export default async function LogPage({
                 .toLocaleDateString("en-US", {
                   year: "numeric",
                   month: "short",
-                  day: "2-digits",
+                  day: "2-digit",
                 })
                 .replace(",", "");
               const isFirst = index === 0 && !activeCategory;
