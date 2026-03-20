@@ -6,7 +6,7 @@ import { useRouter, usePathname } from "next/navigation";
 const SHELL_HISTORY = [
   { command: "cd ~", path: "/" },
   { command: "cd ~/about", path: "/about" },
-  { command: "cd ~/blog", path: "/blog" },
+  { command: "cd ~/log", path: "/log" },
 ];
 
 function pathnameToShellPath(pathname: string) {

@@ -4,15 +4,15 @@ import { getAllPosts, slugToHash } from "@/lib/blog";
 import CommandBlock from "@/components/command-block";
 
 export const metadata: Metadata = {
-  title: "Blog | 이성",
-  description: "개발 블로그 — 프로젝트, 회고, TIL",
+  title: "Log | 이성",
+  description: "개발, 설계, 제품, AI — Builder의 기록",
 };
 
 export default async function BlogPage() {
   const posts = getAllPosts();
 
   return (
-    <CommandBlock command="git log --oneline --decorate">
+    <CommandBlock command="git log --oneline --all --decorate">
       {posts.length === 0 ? (
         <p className="text-sm text-t-red">
           fatal: your current branch &apos;main&apos; does not have any
@@ -35,7 +35,7 @@ export default async function BlogPage() {
             return (
               <Link
                 key={post.slug}
-                href={`/blog/${post.slug}`}
+                href={`/log/${post.slug}`}
                 className="block rounded px-1 py-1 transition-colors hover:bg-t-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-t-accent"
               >
                 <span className="flex gap-2">

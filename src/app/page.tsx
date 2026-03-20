@@ -87,7 +87,7 @@ export default function Home() {
       </CommandBlock>
 
       {/* Recent Posts */}
-      <CommandBlock command="ls -lt ~/blog | head -3" aria-label="최근 글">
+      <CommandBlock command="ls -lt ~/log | head -3" aria-label="최근 글">
         {recentPosts.length === 0 ? (
           <p className="text-sm text-t-muted">total 0</p>
         ) : (
@@ -108,7 +108,7 @@ export default function Home() {
               return (
                 <Link
                   key={post.slug}
-                  href={`/blog/${post.slug}`}
+                  href={`/log/${post.slug}`}
                   className="block rounded px-1 py-1 transition-colors hover:bg-t-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-t-accent"
                 >
                   <span className="flex gap-3">
@@ -126,10 +126,10 @@ export default function Home() {
         )}
         <div className="mt-3">
           <Link
-            href="/blog"
+            href="/log"
             className="rounded text-sm text-t-blue hover:text-t-br-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-t-accent"
           >
-            $ cd ~/blog
+            $ cd ~/log
           </Link>
         </div>
       </CommandBlock>

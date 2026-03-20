@@ -23,7 +23,7 @@ export default function BlogCard({
 
   return (
     <Link
-      href={`/blog/${slug}`}
+      href={`/log/${slug}`}
       className="flex gap-3 rounded px-1 py-0.5 text-sm transition-colors hover:bg-t-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-t-accent"
     >
       <span className="shrink-0 text-t-subtle">-rw-r--r--</span>
