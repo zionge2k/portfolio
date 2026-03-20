@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import { cache } from "react";
 import matter from "gray-matter";
-import type { Frontmatter, Post } from "@/types/blog";
+import type { Frontmatter, Post, Category } from "@/types/blog";
 
 const BLOG_DIR = path.join(process.cwd(), "content", "blog");
 
@@ -62,4 +62,20 @@ export function getAllSlugs(): string[] {
     .readdirSync(BLOG_DIR)
     .filter((f) => f.endsWith(".mdx"))
     .map((f) => f.replace(/\.mdx$/, ""));
+}
+
+export const getPostsByCategory = cache(function getPostsByCategory(
+  category: Category,
+): Post[] {
+  return getAllPosts().filter((p) => p.frontmatter.category === category);
+});
+
+export function getCategories(): { name: Category; count: number }[] {
+  const posts = getAllPosts();
+  const counts = new Map<Category, number>();
+  for (const post of posts) {
+    const cat = post.frontmatter.category;
+    counts.set(cat, (counts.get(cat) ?? 0) + 1);
+  }
+  return Array.from(counts.entries()).map(([name, count]) => ({ name, count }));
 }
