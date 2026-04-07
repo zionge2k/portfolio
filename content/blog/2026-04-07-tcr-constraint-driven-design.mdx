@@ -1,0 +1,158 @@
+---
+title: "TCR: 실패하면 코드가 사라진다 — 제약이 설계를 만드는 방법"
+description: "Test && Commit || Revert. 테스트 실패 시 코드를 자동 삭제하는 극단적 제약이 어떻게 더 나은 설계 습관을 강제하는지, 그리고 AI 시대에 이 제약이 왜 다시 주목받는지 분석한다."
+date: "2026-04-07"
+tags: ["tcr", "tdd", "small-steps", "constraint-driven-design", "ai-harness"]
+category: "design"
+published: true
+---
+
+## 출발점
+
+"너무 싫어서 꼭 시도해봐야 했다(I hated the idea so I had to try it)." — Kent Beck이 TCR을 처음 접했을 때의 반응이다.
+
+**TCR(Test && Commit || Revert)**은 단 한 줄로 표현된다.
+
+```bash
+./test && git commit -am "working" || git reset --hard
+```
+
+코드를 변경한다. 테스트를 실행한다. **통과하면 자동 커밋, 실패하면 모든 변경이 사라진다.** 흔적도 없이.
+
+2018년 Kent Beck, Oddmund Strømme, Lars Barlindhaug, Ole Johannessen이 노르웨이 오슬로 Code Camp에서 만들었다. Beck이 `test && commit`을 제안하자, Strømme이 `|| revert`를 추가했다. 이 한 토큰이 모든 것을 바꿨다.
+
+## 핵심 구분
+
+### TDD vs TCR — 대칭성의 차이
+
+|  | TDD (Red-Green-Refactor) | TCR (Test && Commit \|\| Revert) |
+|---|---|---|
+| **사이클** | Red → Green → Refactor | Change → Test → Commit/Revert |
+| **실패 처리** | 개발자가 수동으로 수정 | 시스템이 자동으로 삭제 |
+| **대칭성** | 비대칭 (성공/실패 처리가 다름) | **완전 대칭** (성공=커밋, 실패=리버트) |
+| **Watch it fail** | 필수 단계 (Red) | 불가능 |
+| **커밋 시점** | 개발자 판단 | 자동 |
+| **Sunk Cost** | 버리기 어려움 | **자동 제거로 원천 차단** |
+
+TDD는 성공과 실패의 처리가 비대칭적이다. 개발자가 Red에서 Green으로, Green에서 Refactor로 갈 때 매번 다른 판단을 해야 한다. **TCR은 이를 기계적이고 감정이 개입하지 않는 대칭 구조로 만든다.**
+
+### 인센티브 구조
+
+TCR이 설계하는 행동 인센티브는 명확하다.
+
+**장려하는 행동:**
+- 작은 단계로 변경 → 실패 확률 감소 → 리버트 공포 감소
+- 자주 테스트 실행 → 조기 피드백
+- 빠른 테스트 유지 → 작업 흐름 유지
+
+**억제하는 행동:**
+- 큰 변경 시도 → 실패 시 모두 삭제 → 자연스러운 위험 회피
+- 느린 테스트 → 매번 기다림 → 테스트 최적화 압력
+- 테스트 건너뛰기 → 자동 커밋 불가 → 테스트 작성 강제
+
+> "TCR yields high coverage by design, which smooths the downstream testing pipeline." — InfoQ
+
+## 왜 중요한가
+
+### 1. 제약이 창의성을 만든다
+
+TCR의 본질은 revert가 아니다. **"실패하면 모든 것을 잃는다"는 제약이 개발자를 더 신중하고 작은 단계로 이끈다는 것** — 이 통찰이 핵심이다.
+
+소네트 14줄 제약이 셰익스피어를 만들었듯, TCR의 극단적 제약은 개발자에게 "이 변경을 잃어도 괜찮을 만큼 작은 단계인가?"를 매번 묻게 한다. 대부분의 개발자에게 답은 "아니오"다.
+
+### 2. AI 시대의 하네스(Harness)
+
+2026년, Kent Beck은 TCR을 Cursor Skill로 구현하여 AI 코딩 어시스턴트에게 강제하는 실험을 진행했다. AI에게 Left-Leaning Red-Black Tree를 구현시키면서 관찰한 결과:
+
+- AI는 실제로 작은 단계(small steps)로 진행했다
+- 각 단계가 이전보다 기능이 증가하는 **단조 증가(monotonically increasing)** 패턴을 보였다
+- 테스트 통과 → 커밋, 실패 → 리버트가 AI의 환각(hallucination)을 즉시 차단했다
+
+**사람에게 TCR을 강제하는 것은 가혹하다. AI에게 TCR을 강제하는 것은 자연스럽다.** AI는 revert에 좌절하지 않고, 무한히 재시도할 수 있으며, 작은 단계가 hallucination 방지에 효과적이다.
+
+> Agent = Model + Harness. TCR은 본질적으로 AI 모델을 제약하는 하네스다.
+
+### 3. Auto-Commit이 진짜 혁신일 수 있다
+
+대부분의 논의가 "실패하면 revert"에 집중하지만, 실제로 개발자 행동을 더 많이 바꾸는 건 **"성공하면 자동 commit"** 부분이다.
+
+- 커밋 메시지를 고민하는 인지 부하가 사라진다
+- 커밋이 "의사결정의 기록"에서 "체크포인트"로 변한다
+- `test && commit`만으로도 TCR 효과의 80%를 얻을 수 있다
+
+Revert는 나머지 20%의 강제력을 위해 100%의 논쟁을 만들어낸다.
+
+## 실무 적용
+
+### 가장 간단한 시작
+
+```bash
+# bash alias
+alias tcr='./test && git commit -am "working" || git reset --hard'
+
+# 실패 로그 포함 (리버트 전 실패 정보 기록)
+alias tcr='./test && git commit -am "working" || (git diff > failure-$(date +%s).log && git reset --hard)'
+
+# Node.js
+npx tcr 'npm test'
+```
+
+### AI 코딩 어시스턴트에 적용
+
+**CLAUDE.md 기반:**
+
+```markdown
+## TCR Workflow
+모든 코드 변경 후:
+1. 관련 테스트 자동 실행
+2. 테스트 통과 → git commit
+3. 테스트 실패 → git reset --hard HEAD
+4. Revert 시 실패 로그 기록 후 사용자에게 알림
+```
+
+**Cursor Skill / Hooks 기반:**
+
+```
+PostToolUse hook → 파일 수정 감지 → 테스트 자동 실행 → 실패 시 revert, 통과 시 commit
+```
+
+### TDD Red 단계 문제 해결 — 변형들
+
+TCR의 가장 큰 제약은 TDD의 Red 단계(실패하는 테스트 먼저 작성)가 불가능하다는 것이다. 해결책:
+
+**부정된 어설션(Negated Assertion):**
+
+```java
+// Before: 구현 전 — 테스트 통과 (green)
+assertFalse(실제로_true가_되어야_할_조건);
+
+// After: 구현 후 — 진짜 어설션으로 변경
+assertTrue(실제_조건);
+```
+
+**Partial Revert:** 테스트 코드는 유지하고 프로덕션 코드만 리버트한다. TDD Red 단계를 살리면서 TCR의 이점을 유지하는 절충안이다.
+
+## 판단 기준
+
+| 상황 | 적합도 | 이유 |
+|------|--------|------|
+| **AI 코딩 어시스턴트 제약** | ★★★★★ | 감정 없음, revert 비용 zero |
+| **탐색적 프로그래밍 (solo)** | ★★★★☆ | 빠른 실험 + 자동 롤백 |
+| **Coding Dojo / 학습** | ★★★★☆ | 작은 단계 강제가 이해도를 높임 |
+| **새 프로젝트 시작** | ★★★☆☆ | 테스트 인프라가 갖춰져 있을 때 |
+| **레거시 리팩토링** | ★★☆☆☆ | 테스트 커버리지가 전제 |
+| **팀 프로덕션 코드** | ★★☆☆☆ | 커밋 히스토리 오염, 팀원 저항 |
+| **긴급 버그 수정** | ★☆☆☆☆ | 큰 변경 필요 시 revert가 방해 |
+
+**핵심 신호:**
+- "이 변경을 잃어도 괜찮은가?" → Yes면 TCR 적합
+- 테스트가 1초 이내에 끝나는가? → Yes면 TCR 적합
+- AI에게 코딩을 시키고 있는가? → Yes면 TCR 강력 추천
+
+## 핵심 정리
+
+- **TCR은 "방법론"보다 "사고 실험"으로서 더 가치 있다.** "실패하면 모든 것을 잃는다"는 제약이 설계 습관을 바꾼다.
+- **TDD와 TCR은 대체 관계가 아니다.** TDD는 "어떻게 설계할 것인가"의 도구, TCR은 "어떻게 행동을 제약할 것인가"의 도구다.
+- **AI 시대에 TCR의 진짜 위치는 "AI harness"다.** 사람에게는 가혹하지만, AI에게는 자연스러운 제약이다.
+- **TCR-lite(`test && commit`)만으로도 80%의 효과를 얻을 수 있다.** Revert 없이 자동 커밋만 적용하는 것도 유효한 시작점이다.
+- **TCR이 어렵다면 코드에 문제가 있다는 신호다.** 느린 테스트, 타이트한 커플링, 빈약한 추상화를 노출시키는 카나리아 역할을 한다.
