@@ -13,6 +13,17 @@ export default function TsbPage() {
 
   return (
     <div className="space-y-4">
+      <CommandBlock command="whatis tsb">
+        <p className="text-sm">
+          <span className="text-t-green">tsb (1)</span>
+          <span className="text-t-muted"> — </span>
+          <span className="text-t-fg">Today Stock Briefing</span>
+          <span className="text-t-muted">
+            : 매 거래일 08:00 아침 프리뷰, 18:00 저녁 마감 리뷰를 자동 발행하는
+            증시 서사 브리핑
+          </span>
+        </p>
+      </CommandBlock>
       <CommandBlock command="ls -t ~/tsb/">
         {dates.length === 0 ? (
           <p className="text-sm text-t-red">
@@ -41,9 +52,6 @@ export default function TsbPage() {
           </div>
         )}
       </CommandBlock>
-      <p className="text-xs text-t-muted">
-        매 거래일 08:00 아침 프리뷰, 18:00 저녁 마감 리뷰가 자동 발행됩니다.
-      </p>
     </div>
   );
 }
