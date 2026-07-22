@@ -7,6 +7,7 @@ const SHELL_HISTORY = [
   { command: "cd ~", path: "/" },
   { command: "cd ~/about", path: "/about" },
   { command: "cd ~/log", path: "/log" },
+  { command: "cd ~/tsb", path: "/tsb" },
 ];
 
 function pathnameToShellPath(pathname: string) {
