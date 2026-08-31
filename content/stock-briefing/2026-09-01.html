@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>주식 서사 브리핑 · 2026-09-01</title>
+<style>
+  :root {
+    --ground: #eef0f4; --card: #ffffff; --card-2: #f8f9fb;
+    --ink: #1b2027; --ink-soft: #5c6570; --ink-faint: #8b929c;
+    --line: #e4e7ec; --line-strong: #d3d8df;
+    --up: #d5342c; --down: #1f6fd6;
+    --accent: #b07a12; --accent-soft: #f4ead2;
+    --geo: #4a6b3a; --geo-soft: #eaf0e4;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+    --kr: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard",
+          "Noto Sans KR", "Malgun Gothic", sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #0e1116; --card: #171b21; --card-2: #1e232b;
+      --ink: #e7ebef; --ink-soft: #a3abb5; --ink-faint: #6c7580;
+      --line: #262c34; --line-strong: #333b45;
+      --up: #ff6a5f; --down: #5fa0f5; --accent: #e2b45a; --accent-soft: #332c17;
+      --geo: #9dbb84; --geo-soft: #1e2a18;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #0e1116; --card: #171b21; --card-2: #1e232b;
+    --ink: #e7ebef; --ink-soft: #a3abb5; --ink-faint: #6c7580;
+    --line: #262c34; --line-strong: #333b45;
+    --up: #ff6a5f; --down: #5fa0f5; --accent: #e2b45a; --accent-soft: #332c17;
+    --geo: #9dbb84; --geo-soft: #1e2a18;
+  }
+  :root[data-theme="light"] {
+    --ground: #eef0f4; --card: #ffffff; --card-2: #f8f9fb;
+    --ink: #1b2027; --ink-soft: #5c6570; --ink-faint: #8b929c;
+    --line: #e4e7ec; --line-strong: #d3d8df;
+    --up: #d5342c; --down: #1f6fd6; --accent: #b07a12; --accent-soft: #f4ead2;
+    --geo: #4a6b3a; --geo-soft: #eaf0e4;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--ground); color: var(--ink);
+    font-family: var(--kr); line-height: 1.55;
+    -webkit-font-smoothing: antialiased; font-variant-numeric: tabular-nums; }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 40px 20px 56px; }
+  .page-head { text-align: center; margin-bottom: 26px; }
+  .page-head h1 { font-size: 15px; font-weight: 600; letter-spacing: .14em;
+    color: var(--ink-soft); margin: 0 0 6px; text-transform: uppercase; }
+  .page-head p { margin: 0; font-size: 13px; color: var(--ink-faint); }
+  .card { background: var(--card); border: 1px solid var(--line);
+    border-radius: 16px; padding: 24px 24px 20px;
+    box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 12px 30px -18px rgba(0,0,0,.25);
+    display: flex; flex-direction: column; gap: 16px; margin-bottom: 34px; }
+  .card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+  .session { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 17px; }
+  .date { font-size: 12.5px; color: var(--ink-faint); }
+  .hero { background: var(--accent-soft); border-left: 3px solid var(--accent);
+    border-radius: 8px; padding: 13px 15px; display: flex; flex-direction: column; gap: 7px; }
+  .hero .txt { font-size: 15.5px; font-weight: 700; line-height: 1.5; }
+  .hero .psy { font-size: 13px; line-height: 1.5; color: var(--ink);
+    padding-top: 7px; border-top: 1px dashed color-mix(in srgb, var(--accent) 35%, transparent); }
+  .hero .psy .ev { color: var(--ink-faint); font-size: 11.5px; }
+  .group { display: flex; flex-direction: column; gap: 7px; }
+  .group > .glabel { display: flex; align-items: center; gap: 7px;
+    font-size: 12px; font-weight: 700; letter-spacing: .04em; color: var(--ink-soft);
+    padding-bottom: 3px; border-bottom: 1px solid var(--line); }
+  .fact { display: grid; grid-template-columns: auto 1fr; gap: 9px; align-items: baseline; }
+  .key { font-family: var(--mono); font-size: 10.5px; font-weight: 600;
+    color: var(--ink-soft); background: var(--card-2); border: 1px solid var(--line);
+    border-radius: 5px; padding: 1.5px 6px; white-space: nowrap; }
+  .val { font-size: 13.5px; line-height: 1.5; }
+  .val em { color: var(--ink-faint); font-style: normal; font-size: 12.5px; }
+  .up { color: var(--up); font-weight: 700; white-space: nowrap; }
+  .down { color: var(--down); font-weight: 700; white-space: nowrap; }
+  .watch { color: var(--accent); font-weight: 700; }
+  a.link { color: var(--down); text-decoration: none;
+    border-bottom: 1px solid color-mix(in srgb, var(--down) 40%, transparent); }
+  a.link:hover { border-bottom-color: var(--down); }
+  .geo-line { background: var(--geo-soft); border-left: 3px solid var(--geo);
+    border-radius: 8px; padding: 10px 14px; font-size: 13.5px; line-height: 1.55; }
+  .geo-line .lbl { font-size: 11px; font-weight: 700; letter-spacing: .08em;
+    color: var(--geo); text-transform: uppercase; display: block; margin-bottom: 2px; }
+  .chart { background: var(--card-2); border: 1px solid var(--line);
+    border-radius: 10px; padding: 10px 12px 8px; }
+  .chart-head { display: flex; justify-content: space-between; align-items: baseline;
+    font-size: 11.5px; color: var(--ink-soft); margin-bottom: 2px; }
+  .chart-head b { font-weight: 700; color: var(--ink); }
+  .chart svg { display: block; width: 100%; height: auto; aspect-ratio: 560 / 170; }
+  .chart-cap { font-size: 11px; color: var(--ink-faint); margin-top: 2px; }
+  .exp { border-top: 2px solid var(--line-strong); margin-top: 6px; padding-top: 14px;
+    display: flex; flex-direction: column; gap: 4px; }
+  .exp-title { font-size: 14px; font-weight: 700; color: var(--ink-soft); margin-bottom: 6px; }
+  .wsec { padding: 13px 0; border-top: 1px dashed var(--line); }
+  .wsec:first-of-type { border-top: none; }
+  .wt { font-size: 14.5px; font-weight: 700; color: var(--accent); margin-bottom: 6px; }
+  .wsec p { margin: 0 0 8px; font-size: 13.5px; line-height: 1.64; }
+  .wsec p:last-child { margin-bottom: 0; }
+  .term { color: var(--ink-soft); font-size: 13px; }
+  .think { background: var(--accent-soft); border-left: 3px solid var(--accent);
+    border-radius: 8px; padding: 10px 13px; margin-bottom: 9px; }
+  .think .tl { font-size: 11px; font-weight: 700; letter-spacing: .06em;
+    color: var(--accent); display: block; margin-bottom: 3px; }
+  .think p { margin: 0; font-size: 13.5px; line-height: 1.68; }
+  .cp-head { display: flex; gap: 9px; align-items: baseline; margin-bottom: 8px; }
+  .cp-badge { flex: none; font-size: 11px; font-weight: 800; letter-spacing: .03em;
+    color: var(--accent); background: var(--card); border: 1.5px solid var(--accent);
+    border-radius: 999px; padding: 2.5px 10px; }
+  .cp-act { font-size: 13.5px; font-weight: 600; line-height: 1.5; }
+  .forks { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+  @media (max-width: 620px) { .forks { grid-template-columns: 1fr; } }
+  .fork { background: var(--card-2); border: 1px solid var(--line);
+    border-radius: 10px; padding: 9px 12px 10px; }
+  .fork-cond { font-size: 12px; font-weight: 700; color: var(--ink-soft);
+    padding-bottom: 5px; margin-bottom: 6px; border-bottom: 1px solid var(--line);
+    display: flex; gap: 6px; align-items: center; }
+  .fork-cond::before { content: "→"; color: var(--accent); font-weight: 800; }
+  .fork-read { font-size: 12.5px; line-height: 1.6; }
+  .cal-wrap { background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+    padding: 16px 20px; margin-bottom: 34px; display: flex; flex-direction: column; gap: 8px; }
+  .cal { display: flex; flex-direction: column; }
+  .cal-day { display: grid; grid-template-columns: 62px 1fr; gap: 10px;
+    padding: 7px 4px; border-top: 1px dashed var(--line); }
+  .cal-day:first-of-type { border-top: none; }
+  .cal-date { font-family: var(--mono); font-size: 11.5px; font-weight: 700;
+    color: var(--ink-soft); white-space: nowrap; padding-top: 2px; }
+  .cal-day.today { background: var(--accent-soft); border-radius: 8px; border-top: none; }
+  .cal-day.today .cal-date { color: var(--accent); }
+  .cal-day.past { opacity: .45; }
+  .cal-evs { display: flex; flex-direction: column; gap: 4px; }
+  .cal-ev { font-size: 12.5px; line-height: 1.55; }
+  .cal-ev b { font-weight: 700; }
+  .cal-ev .why { color: var(--ink-faint); font-size: 12px; }
+  .cal-ev.cancelled { text-decoration: line-through; color: var(--ink-faint); }
+  .cal-ev .cancel-tag { color: var(--down); font-weight: 700; text-decoration: none;
+    display: inline-block; margin-left: 4px; font-size: 11px; }
+  .digest { padding: 10px 0 4px; }
+  .digest .dh { font-size: 13.5px; font-weight: 700; margin-bottom: 3px; }
+  .digest .dh a { color: inherit; text-decoration: none;
+    border-bottom: 1px solid var(--line-strong); }
+  .digest p { margin: 0; font-size: 13px; line-height: 1.62; color: var(--ink-soft); }
+  .foot { margin-top: 4px; padding-top: 10px; border-top: 1px dashed var(--line-strong);
+    font-size: 11px; color: var(--ink-faint); line-height: 1.5; }
+  .legend { text-align: center; margin-top: 4px; font-size: 12px; color: var(--ink-faint);
+    display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="page-head"><h1>주식 서사 브리핑</h1><p>판단이 아닌 참고용 팩트·해석 — 수치는 코드가, 서사는 AI가 생성합니다</p></div>
+  <section class="cal-wrap"><div class="glabel">📅 이번 주 일정</div><div class="cal"><div class="cal-day past"><span class="cal-date">월 8/31</span><div class="cal-evs"><div class="cal-ev">🇰🇷 <b><a class="link" href="https://www.mods.go.kr/ansk/file/schedule_2026.pdf" target="_blank" rel="noopener">2026년 7월 산업활동동향 (통계청/국가데이터처)</a></b> <span class="why">— 생산·소비·투자 3대 지표 → 국내 경기 방향 확인 → 내수·경기민감주(유통·건설) 및 코스피 전반 투자심리</span></div></div></div><div class="cal-day today"><span class="cal-date">화 9/1</span><div class="cal-evs"><div class="cal-ev">🇰🇷 <b><a class="link" href="https://tradingeconomics.com/south-korea/balance-of-trade" target="_blank" rel="noopener">2026년 8월 수출입 동향 (무역수지·수출 증감률)</a></b> <span class="why">— 한국 수출은 코스피 이익의 원천 → 반도체 수출 증감이 삼성전자·SK하이닉스 실적 기대에 직결</span></div><div class="cal-ev">🇺🇸 <b><a class="link" href="https://www.koreadaily.com/article/20260829150030948" target="_blank" rel="noopener">미국 7월 구인·이직보고서(JOLTS)</a></b> <span class="why">— 고용 수요 둔화 여부 → 연준 금리 인하 기대 → 원/달러 환율과 외국인 수급</span></div><div class="cal-ev">🇺🇸 <b><a class="link" href="https://www.koreadaily.com/article/20260829150030948" target="_blank" rel="noopener">마이클 바 연준 이사 연설</a></b> <span class="why">— 연준 인사 발언은 9월 FOMC 금리 전망을 흔듦 → 환율·외국인 순매수 변동</span></div><div class="cal-ev">🇺🇸 <b><a class="link" href="https://www.investing.com/economic-calendar/ism-manufacturing-pmi-173" target="_blank" rel="noopener">미국 8월 ISM 제조업 구매관리자지수(PMI)</a></b> <span class="why">— 미국 제조업 경기 → 한국 수출 수요 선행 지표 → 반도체·자동차·기계 등 수출주 방향</span></div></div></div><div class="cal-day"><span class="cal-date">수 9/2</span><div class="cal-evs"><div class="cal-ev">🇺🇸 <b><a class="link" href="https://investors.broadcom.com/news-releases/news-release-details/broadcom-inc-announce-third-quarter-fiscal-year-2026-financial" target="_blank" rel="noopener">브로드컴(AVGO) FY2026 3분기 실적 발표 (장 마감 후)</a></b> <span class="why">— AI 반도체 수요의 바로미터 → 다음 날 국내 반도체(삼성전자·SK하이닉스)·AI 부품주 동조 등락</span></div><div class="cal-ev">🇰🇷 <b><a class="link" href="https://www.mods.go.kr/ansk/file/schedule_2026.pdf" target="_blank" rel="noopener">2026년 8월 소비자물가동향 (통계청/국가데이터처)</a></b> <span class="why">— 물가가 높으면 한은 금리 인하가 늦어짐 → 대출금리·소비주·은행주 및 채권금리에 영향</span></div><div class="cal-ev">🇺🇸 <b><a class="link" href="https://www.koreadaily.com/article/20260829150030948" target="_blank" rel="noopener">미국 7월 공장재 수주(Factory Orders)</a></b> <span class="why">— 미국 제조업 수요의 실물 확인 → 한국 기계·부품 수출 물량 전망 → 산업재·자동차부품주</span></div><div class="cal-ev">🇺🇸 <b><a class="link" href="https://www.investing.com/economic-calendar/adp-nonfarm-employment-change-1" target="_blank" rel="noopener">미국 8월 ADP 민간 고용보고서</a></b> <span class="why">— 이틀 뒤 고용보고서의 예고편 → 미국 금리 기대 선반영 → 환율·외국인 수급 통해 대형주</span></div></div></div><div class="cal-day"><span class="cal-date">목 9/3</span><div class="cal-evs"><div class="cal-ev">🇺🇸 <b><a class="link" href="https://www.koreadaily.com/article/20260829150030948" target="_blank" rel="noopener">미국 주간 신규 실업수당 청구 건수</a></b> <span class="why">— 고용 냉각 속도를 매주 보여주는 지표 → 금리 인하 기대 → 환율·외국인 수급</span></div><div class="cal-ev">🇺🇸 <b><a class="link" href="https://www.koreadaily.com/article/20260829150030948" target="_blank" rel="noopener">월러 연준 이사·해맥 클리블랜드 연은 총재·굴스비 시카고 연은 총재 연설</a></b> <span class="why">— 고용보고서 직전 연준 신호 → 미국 금리 기대 → 환율·반도체 대형주 수급</span></div><div class="cal-ev">🇺🇸 <b><a class="link" href="https://www.federalreserve.gov/newsevents/2026-september.htm" target="_blank" rel="noopener">연준 베이지북 공개</a></b> <span class="why">— 9월 FOMC 판단의 밑그림 → 금리 인하 기대 변화 → 원/달러 환율과 성장주 밸류에이션</span></div><div class="cal-ev">🇺🇸 <b><a class="link" href="https://www.investing.com/economic-calendar/ism-non-manufacturing-pmi-176" target="_blank" rel="noopener">미국 8월 ISM 서비스업 PMI</a></b> <span class="why">— 미국 소비 경기 확인 → 미국 증시 방향 → 다음 날 코스피 개장 분위기와 외국인 수급</span></div></div></div><div class="cal-day"><span class="cal-date">금 9/4</span><div class="cal-evs"><div class="cal-ev">🇰🇷 <b><a class="link" href="https://www.bok.or.kr/portal/stats/statsPublictSchdul/listCldr.do?menuNo=200775" target="_blank" rel="noopener">2026년 7월 국제수지(잠정) (한국은행)</a></b> <span class="why">— 경상수지 흑자 규모 → 달러 유입과 원화 강세 여부 → 외국인 순매수 여건</span></div><div class="cal-ev">🇺🇸 <b><a class="link" href="https://fedratecalc.com/us-economic-calendar/" target="_blank" rel="noopener">미국 8월 고용보고서(비농업 고용·실업률)</a></b> <span class="why">— 이번 주 최대 이벤트 — 미국 금리 방향 결정 → 원/달러 환율·외국인 수급 → 반도체 등 지수 대형주</span></div></div></div></div></section><section class="card">
+    <div class="card-head"><div class="session">🌅 아침 브리핑</div><div class="date">2026-09-01 (화) 08:00 · 장 시작 전</div></div>
+    <div class="hero"><div class="txt">원화는 하루 9.6원이나 세졌는데 외국인은 코스피에서 6,439억을 팔았어요 — 오늘 아침 8월 수출입 동향이 그 어긋남에 답을 줄지가 관전 포인트예요.</div><div class="psy">🌡️ 방향은 조용한데 폭이 다시 벌어진, 결론이 안 난 국면이에요. <span class="ev">(코스피 일중 변동폭이 8/25 5.18%에서 8/28 1.78%까지 좁아졌다가 8/31 4.12%로 다시 확대됐어요(4% 이상은 이례적 구간). 어제 코스피는 +0.46%, 코스닥은 -0.49%로 방향도 엇갈렸고요.)</span></div></div>
+    
+    <div class="group"><div class="glabel">🌐 간밤 · 거시</div><div class="fact"><span class="key">간밤 미국</span><span class="val">S&P500 <span class="up">▲0.00%</span> · 나스닥 <span class="up">▲0.00%</span> · 반도체 SOX <span class="up">▲0.00%</span> · 선물 <span class="up">▲0.00%</span></span></div>
+<div class="fact"><span class="key">환율</span><span class="val">원/달러 1,367.5원 <span class="down">▼9.60원</span></span></div>
+<div class="fact"><span class="key">직전 지수</span><span class="val">코스닥 834.29 (<span class="down">▼0.49%</span>) · 코스피 6,820.02 (<span class="up">▲0.46%</span>) <em>(2026-08-31 종가)</em></span></div>
+<div class="fact"><span class="key">직전 수급</span><span class="val">코스피 외국인 <span class="down">▼6,439억</span> · 기관 <span class="down">▼7,891억</span> <em>(2026-08-31 기준)</em></span></div>
+<div class="fact"><span class="key">직전 섹터</span><span class="val">반도체 <span class="up">▲0.97%</span> · 방산 <span class="down">▼3.46%</span> · 조선 <span class="down">▼1.22%</span> <em>(2026-08-31 기준)</em></span></div>
+<div class="fact"><span class="key">시장 레이더</span><span class="val">전기전자 <span class="up">▲1.22%</span> · 화학 <span class="up">▲1.09%</span> · 제조 <span class="up">▲0.77%</span> · 최약 건설 <span class="down">▼3.85%</span> <em>(2026-08-31 기준)</em></span></div></div>
+    <div class="geo-line"><span class="lbl">🌍 정세 읽기</span>원화가 세지는데 외국인이 파는, 교과서와 반대로 간 하루였어요. <em>(해석 · 상세는 아래)</em></div>
+    <div class="group"><div class="glabel">🗣️ 오늘의 재료</div>
+      <div class="fact"><span class="key">나온 이슈</span><span class="val">[르포]탄천 임대주택?…악취보다 '반대'가 문제 · "상장 전 정보 어디까지"…코너스톤 시행에 증권가 고심 · 삼성바이오에피스, 국내 제약사 영업망 등에 업고 매출 'UP' <em>— 요약 아래 ▾</em></span></div><div class="fact"><span class="key"><span class="watch">📌 지켜볼 것</span></span><span class="val">① 🔭 발견: 건설 ② 지수는 올랐는데 오른 자리는 좁았어요 <em>— 해석 아래 ▾</em></span></div>
+    </div>
+    <div class="exp"><div class="exp-title">🧭 아침 해설</div>
+      <div class="wsec"><div class="wt">📅 2026년 8월 수출입 동향 (무역수지·수출 증감률)</div><p class="term">수출입 동향 — 매달 1일 발표되는 전월 수출·수입·무역수지 성적표예요.</p><div class="think"><span class="tl">💬 내 생각</span><p>한국 수출은 코스피 기업 이익의 원천이라, 그중 반도체 수출 증감은 삼성전자·SK하이닉스의 실적 기대에 곧장 연결돼요. 어제 반도체(+0.97%)와 전기전자(+1.22%)가 시장에서 상대적으로 버틴 자리였던 만큼, 이 숫자가 그 버팀을 설명해줄지 아니면 흔들지가 오늘의 관전 포인트예요.</p></div><div class="cp"><div class="cp-head"><span class="cp-badge">✅ 체크포인트</span><span class="cp-act">발표가 나오면 전체 수출 증감률보다 반도체 수출 증감률 한 줄을 먼저 찾아봐요.</span></div><div class="forks"><div class="fork"><div class="fork-cond">반도체 수출 증가세 유지</div><div class="fork-read">어제 전기전자 강세가 실적 기대와 맞물린 국면으로 읽히니, 관련 흐름을 관심 있게 이어 봐도 좋아요.</div></div><div class="fork"><div class="fork-cond">반도체 수출 증가세 둔화</div><div class="fork-read">지수를 떠받치던 축이 약해질 수 있는 국면이라, 다른 업종이 그 자리를 받는지까지 보며 관망하는 편이 편해요.</div></div></div></div></div><div class="digest"><div class="dh">📰 <a href="http://news.bizwatch.co.kr/article/real_estate/2026/08/31/0031/" target="_blank" rel="noopener">[르포]탄천 임대주택?…악취보다 '반대'가 문제</a></div><p>정부와 서울시가 대규모 신규주택을 어디에 지을지를 두고 줄다리기를 이어가고 있고, 서울시는 용산어린이정원보다 넓은 강남 탄천물재생센터 부지에 청년주택과 산업단지를 조성하자는 입장이에요. 기사는 하수처리장 상부를 덮어 만든 공원과 냄새 농도 전광판까지 둘러본 뒤, 정작 걸림돌은 악취보다 일원동 주민들의 반대라는 현장 분위기를 전해요. 주택 공급 계획은 착공·분양 물량을 통해 건설사 실적 기대와 닿는 주제라, 어제 건설업종이 가장 크게 밀린 것과 같은 화면에 놓고 볼 만해요.</p></div><div class="digest"><div class="dh">📰 <a href="http://news.bizwatch.co.kr/article/market/2026/08/31/0018/" target="_blank" rel="noopener">"상장 전 정보 어디까지"…코너스톤 시행에 증권가 고심</a></div><p>11월 코너스톤 투자자 제도 시행을 앞두고, 증권신고서 제출 전 기관투자자에게 어떤 정보를 어디까지 줄 수 있는지 실무 기준을 더 구체화해야 한다는 목소리가 증권업계에서 나오고 있어요. 코너스톤은 요건을 갖춘 기관에 공모주 일부를 미리 배정하는 대신 장기간 보유를 요구하는 제도로, 상장 직후 기관 물량이 쏟아져 주가가 급변하는 문제를 줄이려는 취지예요. 공모주 청약에 관심이 있다면 '누구에게 얼마가 먼저 배정되는지'의 구조가 바뀐다는 점을 미리 알아두면 나중에 헷갈리지 않아요.</p></div><div class="digest"><div class="dh">📰 <a href="http://news.bizwatch.co.kr/article/healthcare/2026/08/31/0036/" target="_blank" rel="noopener">삼성바이오에피스, 국내 제약사 영업망 등에 업고 매출 'UP'</a></div><p>삼성바이오에피스의 국내 매출이 2024년 646억원에서 2025년 780억원으로 늘었고, 올해 상반기에만 506억원을 기록해 지난해 연간 매출의 65%를 채웠어요. 자가면역·희귀질환 치료제 5종은 자체 영업망으로 직접 팔고, 안과·항암·골다공증은 그 분야에 강한 국내 제약사와 손잡아 의료진 네트워크를 빌려 쓰는 식으로 판매 전략을 나눈 게 특징이에요. 제품을 잘 만드는 것과 파는 통로를 확보하는 것이 별개의 실력이라는 걸 보여주는 사례로 읽어요.</p></div><div class="wsec"><div class="wt">🌍 정세 읽기</div><p class="term">통념대로면 원/달러가 내려 원화가 강해질 때 외국인은 주가 상승분에 환차익까지 얹을 수 있어 한국 주식을 사는 쪽이에요. 그런데 어제 실제 경로는 반대였어요 — 원/달러가 1367.5원까지 9.6원 내리는 동안 외국인은 코스피에서 6,439억, 기관은 7,891억을 순매도했고, 그럼에도 지수는 +0.46%로 마쳤어요.</p><div class="think"><span class="tl">💬 내 생각</span><p>저는 이걸 '환율 때문이 아니라 다른 이유로 판 날'이라는 신호로 읽어요 — 환율이 발목이었다면 원화 강세에 매도가 줄었어야 하니까요. 다만 이건 해석이지 확정은 아니고, 외국인·기관이 함께 판 날 지수가 버틴 건 개인이 받쳤다는 뜻이라 그 힘이 이어질지는 별개 문제예요.</p></div><div class="cp"><div class="cp-head"><span class="cp-badge">✅ 체크포인트</span><span class="cp-act">오늘 외국인 순매수가 어제의 순매도를 되돌리는지를, 원/달러 방향과 나란히 놓고 하루만 확인해 봐요.</span></div><div class="forks"><div class="fork"><div class="fork-cond">원화 강세인데 외국인 순매도 지속</div><div class="fork-read">환율 밖의 이유(차익실현·비중 조정 등)가 수급을 끌고 가는 국면으로 보고, 지수 등락보다 수급이 며칠 이어지는지부터 관망하는 자세가 편해요.</div></div><div class="fork"><div class="fork-cond">원화 강세와 함께 외국인 순매수 전환</div><div class="fork-read">어제 매도가 일시적이었다는 쪽에 무게가 실리는 국면이라, 환율에 민감한 수출 대형주 흐름을 관심 범위에 두고 볼 만해요.</div></div></div></div></div><div class="wsec"><div class="wt">🔭 발견: 건설</div><p class="term">건설업종 지수 — 시공·주택 개발 회사들을 묶은 업종 지수로, 분양·수주·정부 공급 정책에 민감해요.</p><div class="think"><span class="tl">💬 내 생각</span><p>어제 업종 지형에서 가장 많이 밀린 자리가 건설(-3.85%)인데, 왜 밀렸는지는 지금 제가 가진 데이터로는 모르겠어요 — 반도체·방산·조선만 보던 눈에는 아예 안 보이던 칸이에요. 다만 오늘 뉴스에 서울 주택 공급 부지를 두고 정부와 서울시가 줄다리기 중이라는 르포가 있어서, 공급 정책의 불확실성과 업종 약세가 같은 그림 안에 있는지 정도는 확인해볼 가치가 있어 보여요.</p></div><div class="cp"><div class="cp-head"><span class="cp-badge">✅ 체크포인트</span><span class="cp-act">개별 종목 가격을 찾아보기 전에, 건설업종 지수의 최근 며칠치를 먼저 열어 어제 하루만 빠진 건지 이어진 흐름인지 확인해 봐요.</span></div><div class="forks"><div class="fork"><div class="fork-cond">어제 하루만 크게 빠짐</div><div class="fork-read">특정 이슈나 수급이 만든 일회성 조정일 가능성이 큰 국면이라, 원인을 찾기 전까진 관망이 맞아요.</div></div><div class="fork"><div class="fork-cond">며칠째 연속 약세</div><div class="fork-read">정책이나 수주 같은 구조적 이유가 깔려 있을 수 있는 국면이라, 가격보다 그 이유를 먼저 신중하게 짚어보는 게 순서예요.</div></div></div></div></div><div class="wsec"><div class="wt">지수는 올랐는데 오른 자리는 좁았어요</div><p class="term">업종 쏠림 — 지수가 올라도 상승이 몇몇 업종에만 몰려 있는 상태를 말해요.</p><div class="think"><span class="tl">💬 내 생각</span><p>어제 코스피는 +0.46%로 마쳤지만, 오른 자리는 전기전자(+1.22%)·화학(+1.09%) 쪽이고 금속(-3.39%)·기계장비(-3.56%)·건설(-3.85%)은 3% 넘게 밀렸어요. 지수 숫자 하나만 보면 무난한 날인데 안을 열면 두 개의 다른 시장이 돌아간 날에 가까워서, 저는 '지수가 괜찮다'는 문장을 그대로 믿지 않는 편이에요.</p></div><div class="cp"><div class="cp-head"><span class="cp-badge">✅ 체크포인트</span><span class="cp-act">오늘은 코스피 등락률 대신, 오른 업종 수와 내린 업종 수를 세어 상승의 폭이 넓어지는지 하나만 확인해 봐요.</span></div><div class="forks"><div class="fork"><div class="fork-cond">오르는 업종 수가 늘어남</div><div class="fork-read">쏠림이 풀리며 온기가 시장 전반으로 퍼지는 국면으로 읽을 수 있어, 보는 업종의 범위를 넓혀볼 만해요.</div></div><div class="fork"><div class="fork-cond">여전히 소수 업종만 상승</div><div class="fork-read">지수가 몇몇 대형주에 기대고 있는 국면이라, 지수 상승만 보고 편하게 읽기보다 신중한 자세가 어울려요.</div></div></div></div></div>
+    </div>
+    <div class="foot">⚠️ 방향·사실·해석 정보이며 매수·매도 신호가 아닙니다. 판단과 책임은 본인에게 있습니다.</div>
+  </section>
+  <div class="legend"><span><b class="up">▲ 빨강</b> = 상승</span><span><b class="down">▼ 파랑</b> = 하락</span><span style="color:var(--accent)"><b>황토</b> = 해석·체크포인트</span><span style="color:var(--geo)"><b>🌍</b> = 정세(해석)</span></div>
+</div>
+</body>
+</html>
