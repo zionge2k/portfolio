@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>주식 서사 브리핑 · 2026-10-27</title>
+<style>
+  :root {
+    --ground: #eef0f4; --card: #ffffff; --card-2: #f8f9fb;
+    --ink: #1b2027; --ink-soft: #5c6570; --ink-faint: #8b929c;
+    --line: #e4e7ec; --line-strong: #d3d8df;
+    --up: #d5342c; --down: #1f6fd6;
+    --accent: #b07a12; --accent-soft: #f4ead2;
+    --geo: #4a6b3a; --geo-soft: #eaf0e4;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+    --kr: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard",
+          "Noto Sans KR", "Malgun Gothic", sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #0e1116; --card: #171b21; --card-2: #1e232b;
+      --ink: #e7ebef; --ink-soft: #a3abb5; --ink-faint: #6c7580;
+      --line: #262c34; --line-strong: #333b45;
+      --up: #ff6a5f; --down: #5fa0f5; --accent: #e2b45a; --accent-soft: #332c17;
+      --geo: #9dbb84; --geo-soft: #1e2a18;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #0e1116; --card: #171b21; --card-2: #1e232b;
+    --ink: #e7ebef; --ink-soft: #a3abb5; --ink-faint: #6c7580;
+    --line: #262c34; --line-strong: #333b45;
+    --up: #ff6a5f; --down: #5fa0f5; --accent: #e2b45a; --accent-soft: #332c17;
+    --geo: #9dbb84; --geo-soft: #1e2a18;
+  }
+  :root[data-theme="light"] {
+    --ground: #eef0f4; --card: #ffffff; --card-2: #f8f9fb;
+    --ink: #1b2027; --ink-soft: #5c6570; --ink-faint: #8b929c;
+    --line: #e4e7ec; --line-strong: #d3d8df;
+    --up: #d5342c; --down: #1f6fd6; --accent: #b07a12; --accent-soft: #f4ead2;
+    --geo: #4a6b3a; --geo-soft: #eaf0e4;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--ground); color: var(--ink);
+    font-family: var(--kr); line-height: 1.55;
+    -webkit-font-smoothing: antialiased; font-variant-numeric: tabular-nums; }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 40px 20px 56px; }
+  .page-head { text-align: center; margin-bottom: 26px; }
+  .page-head h1 { font-size: 15px; font-weight: 600; letter-spacing: .14em;
+    color: var(--ink-soft); margin: 0 0 6px; text-transform: uppercase; }
+  .page-head p { margin: 0; font-size: 13px; color: var(--ink-faint); }
+  .card { background: var(--card); border: 1px solid var(--line);
+    border-radius: 16px; padding: 24px 24px 20px;
+    box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 12px 30px -18px rgba(0,0,0,.25);
+    display: flex; flex-direction: column; gap: 16px; margin-bottom: 34px; }
+  .card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+  .session { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 17px; }
+  .date { font-size: 12.5px; color: var(--ink-faint); }
+  .hero { background: var(--accent-soft); border-left: 3px solid var(--accent);
+    border-radius: 8px; padding: 13px 15px; display: flex; flex-direction: column; gap: 7px; }
+  .hero .txt { font-size: 15.5px; font-weight: 700; line-height: 1.5; }
+  .hero .psy { font-size: 13px; line-height: 1.5; color: var(--ink);
+    padding-top: 7px; border-top: 1px dashed color-mix(in srgb, var(--accent) 35%, transparent); }
+  .hero .psy .ev { color: var(--ink-faint); font-size: 11.5px; }
+  .group { display: flex; flex-direction: column; gap: 7px; }
+  .group > .glabel { display: flex; align-items: center; gap: 7px;
+    font-size: 12px; font-weight: 700; letter-spacing: .04em; color: var(--ink-soft);
+    padding-bottom: 3px; border-bottom: 1px solid var(--line); }
+  .fact { display: grid; grid-template-columns: auto 1fr; gap: 9px; align-items: baseline; }
+  .key { font-family: var(--mono); font-size: 10.5px; font-weight: 600;
+    color: var(--ink-soft); background: var(--card-2); border: 1px solid var(--line);
+    border-radius: 5px; padding: 1.5px 6px; white-space: nowrap; }
+  .val { font-size: 13.5px; line-height: 1.5; }
+  .val em { color: var(--ink-faint); font-style: normal; font-size: 12.5px; }
+  .up { color: var(--up); font-weight: 700; white-space: nowrap; }
+  .down { color: var(--down); font-weight: 700; white-space: nowrap; }
+  .watch { color: var(--accent); font-weight: 700; }
+  a.link { color: var(--down); text-decoration: none;
+    border-bottom: 1px solid color-mix(in srgb, var(--down) 40%, transparent); }
+  a.link:hover { border-bottom-color: var(--down); }
+  .geo-line { background: var(--geo-soft); border-left: 3px solid var(--geo);
+    border-radius: 8px; padding: 10px 14px; font-size: 13.5px; line-height: 1.55; }
+  .geo-line .lbl { font-size: 11px; font-weight: 700; letter-spacing: .08em;
+    color: var(--geo); text-transform: uppercase; display: block; margin-bottom: 2px; }
+  .chart { background: var(--card-2); border: 1px solid var(--line);
+    border-radius: 10px; padding: 10px 12px 8px; }
+  .chart-head { display: flex; justify-content: space-between; align-items: baseline;
+    font-size: 11.5px; color: var(--ink-soft); margin-bottom: 2px; }
+  .chart-head b { font-weight: 700; color: var(--ink); }
+  .chart svg { display: block; width: 100%; height: auto; aspect-ratio: 560 / 170; }
+  .chart-cap { font-size: 11px; color: var(--ink-faint); margin-top: 2px; }
+  .exp { border-top: 2px solid var(--line-strong); margin-top: 6px; padding-top: 14px;
+    display: flex; flex-direction: column; gap: 4px; }
+  .exp-title { font-size: 14px; font-weight: 700; color: var(--ink-soft); margin-bottom: 6px; }
+  .wsec { padding: 13px 0; border-top: 1px dashed var(--line); }
+  .wsec:first-of-type { border-top: none; }
+  .wt { font-size: 14.5px; font-weight: 700; color: var(--accent); margin-bottom: 6px; }
+  .wsec p { margin: 0 0 8px; font-size: 13.5px; line-height: 1.64; }
+  .wsec p:last-child { margin-bottom: 0; }
+  .term { color: var(--ink-soft); font-size: 13px; }
+  .think { background: var(--accent-soft); border-left: 3px solid var(--accent);
+    border-radius: 8px; padding: 10px 13px; margin-bottom: 9px; }
+  .think .tl { font-size: 11px; font-weight: 700; letter-spacing: .06em;
+    color: var(--accent); display: block; margin-bottom: 3px; }
+  .think p { margin: 0; font-size: 13.5px; line-height: 1.68; }
+  .cp-head { display: flex; gap: 9px; align-items: baseline; margin-bottom: 8px; }
+  .cp-badge { flex: none; font-size: 11px; font-weight: 800; letter-spacing: .03em;
+    color: var(--accent); background: var(--card); border: 1.5px solid var(--accent);
+    border-radius: 999px; padding: 2.5px 10px; }
+  .cp-act { font-size: 13.5px; font-weight: 600; line-height: 1.5; }
+  .forks { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+  @media (max-width: 620px) { .forks { grid-template-columns: 1fr; } }
+  .fork { background: var(--card-2); border: 1px solid var(--line);
+    border-radius: 10px; padding: 9px 12px 10px; }
+  .fork-cond { font-size: 12px; font-weight: 700; color: var(--ink-soft);
+    padding-bottom: 5px; margin-bottom: 6px; border-bottom: 1px solid var(--line);
+    display: flex; gap: 6px; align-items: center; }
+  .fork-cond::before { content: "→"; color: var(--accent); font-weight: 800; }
+  .fork-read { font-size: 12.5px; line-height: 1.6; }
+  .cal-wrap { background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+    padding: 16px 20px; margin-bottom: 34px; display: flex; flex-direction: column; gap: 8px; }
+  .cal { display: flex; flex-direction: column; }
+  .cal-day { display: grid; grid-template-columns: 62px 1fr; gap: 10px;
+    padding: 7px 4px; border-top: 1px dashed var(--line); }
+  .cal-day:first-of-type { border-top: none; }
+  .cal-date { font-family: var(--mono); font-size: 11.5px; font-weight: 700;
+    color: var(--ink-soft); white-space: nowrap; padding-top: 2px; }
+  .cal-day.today { background: var(--accent-soft); border-radius: 8px; border-top: none; }
+  .cal-day.today .cal-date { color: var(--accent); }
+  .cal-day.past { opacity: .45; }
+  .cal-evs { display: flex; flex-direction: column; gap: 4px; }
+  .cal-ev { font-size: 12.5px; line-height: 1.55; }
+  .cal-ev b { font-weight: 700; }
+  .cal-ev .why { color: var(--ink-faint); font-size: 12px; }
+  .cal-ev.cancelled { text-decoration: line-through; color: var(--ink-faint); }
+  .cal-ev .cancel-tag { color: var(--down); font-weight: 700; text-decoration: none;
+    display: inline-block; margin-left: 4px; font-size: 11px; }
+  .digest { padding: 10px 0 4px; }
+  .digest .dh { font-size: 13.5px; font-weight: 700; margin-bottom: 3px; }
+  .digest .dh a { color: inherit; text-decoration: none;
+    border-bottom: 1px solid var(--line-strong); }
+  .digest p { margin: 0; font-size: 13px; line-height: 1.62; color: var(--ink-soft); }
+  .foot { margin-top: 4px; padding-top: 10px; border-top: 1px dashed var(--line-strong);
+    font-size: 11px; color: var(--ink-faint); line-height: 1.5; }
+  .legend { text-align: center; margin-top: 4px; font-size: 12px; color: var(--ink-faint);
+    display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="page-head"><h1>주식 서사 브리핑</h1><p>판단이 아닌 참고용 팩트·해석 — 수치는 코드가, 서사는 AI가 생성합니다</p></div>
+<section class="cal-wrap"><div class="glabel">📅 이번 주 일정</div><div class="cal"><div class="cal-day today"><span class="cal-date">화 10/27</span><div class="cal-evs"><div class="cal-ev">🇰🇷 <a class="link" href="https://www.segye.com/newsView/20261009507363" target="_blank" rel="noopener noreferrer">SK하이닉스 3분기 실적 발표(추가 주주환원 안내 예정)</a><span class="why"> — 메모리 업황 실적 확인 → 반도체 대형주 수급과 코스피 방향 → 반도체</span></div></div></div><div class="cal-day"><span class="cal-date">수 10/28</span><div class="cal-evs"><div class="cal-ev">🇺🇸 <a class="link" href="https://www.federalreserve.gov/newsevents/2026-october.htm" target="_blank" rel="noopener noreferrer">미국 FOMC 금리 결정·의장 기자회견(10월 27~28일 회의, 미국 동부시간 28일 오후)</a><span class="why"> — 미국 금리 방향 → 달러·원 환율과 외국인 수급 → 반도체 등 성장주 전반</span></div></div></div></div></section>
+<section class="card"><div class="card-head"><div class="session">🌅 아침 브리핑</div><div class="date">2026-10-27 (화) 08:00 · 장 시작 전</div></div><div class="hero"><div class="txt">간밤 미국 증시는 반도체를 중심으로 올랐어요. 반면 직전 한국장은 외국인 매도 속에 내린 종목이 오른 종목보다 훨씬 많았고, 방산·조선이 크게 빠졌어요. 오늘은 SK하이닉스 3분기 실적 발표가 반도체 분위기를 가를 수 있어요.</div><div class="psy">🌡️ 불안 속 반등 기대 — 간밤 SOX +2.65%, 나스닥 +1.23%로 미국은 강했지만, 직전 코스피는 -1.46%(5,469.47), 코스닥은 -3.26%(727.21)였어요. 코스피에서 오른 종목은 101개, 내린 종목은 792개였고 외국인은 6,827억 순매도했어요.</div></div><div class="group"><div class="glabel">🌐 간밤 · 거시</div><div class="fact"><span class="key">간밤 미국</span><span class="val">S&P500 <span class="up">▲0.94%</span> · 나스닥 <span class="up">▲1.23%</span> · 반도체 SOX <span class="up">▲2.65%</span> · 선물 <span class="up">▲0.87%</span></span></div><div class="fact"><span class="key">환율</span><span class="val">원/달러 1,326.5원 <span class="up">▲0.49원</span></span></div></div><div class="group"><div class="glabel">🇰🇷 직전 거래일</div><div class="fact"><span class="key">직전 지수</span><span class="val">코스피 5,469.47 <span class="down">▼1.46%</span> · 코스닥 727.21 <span class="down">▼3.26%</span> <em>(2026-10-26 종가)</em></span></div><div class="fact"><span class="key">20거래일</span><span class="val">고점 7,081(09/23) · 저점 5,469(10/26) · 고점 대비 <span class="down">▼22.76%</span></span></div><div class="fact"><span class="key">시장 폭</span><span class="val">상승 <span class="up">101</span> : 하락 <span class="down">792</span> · 보합 22</span></div><div class="fact"><span class="key">수급</span><span class="val">코스피 외국인 <span class="down">▼6,827억</span> · 기관 <span class="up">▲6,131억</span> / 개인 <span class="up">▲331억</span> <em>(10/26 기준)</em></span></div><div class="fact"><span class="key">업종 지형</span><span class="val">최강 건강관리기술 <span class="up">▲16.82%</span> · 디스플레이패널 <span class="up">▲1.77%</span> / 최약 에너지장비및서비스 <span class="down">▼6.78%</span> · 우주항공과국방 <span class="down">▼5.51%</span></span></div></div><div class="group"><div class="glabel">🎯 관심 섹터</div><div class="fact"><span class="key">반도체</span><span class="val">업종 <span class="down">▼0.40%</span> — 대표주 삼성전자 <span class="down">▼0.93%</span> · SK하이닉스 <span class="up">▲1.02%</span> · SK스퀘어 <span class="up">▲0.13%</span> <em>(변동 최대 원익홀딩스 <span class="up">▲7.66%</span>)</em></span></div><div class="fact"><span class="key">방산</span><span class="val">업종 <span class="down">▼5.51%</span> — 대표주 한화에어로스페이스 <span class="down">▼4.92%</span> · 한화시스템 <span class="down">▼5.13%</span> · 한국항공우주 <span class="down">▼5.09%</span> <em>(변동 최대 LIG디펜스앤에어로스페이스 <span class="down">▼10.62%</span>)</em></span></div><div class="fact"><span class="key">조선</span><span class="val">업종 <span class="down">▼4.82%</span> — 대표주 HD현대중공업 <span class="down">▼5.08%</span> · HD한국조선해양 <span class="down">▼2.82%</span> · 한화오션 <span class="down">▼4.52%</span> <em>(변동 최대 HD현대마린솔루션 <span class="down">▼14.35%</span>)</em></span></div></div><div class="exp"><div class="exp-title">🧭 아침 해설</div><div class="wsec"><div class="wt">간밤 미국: 반도체가 이끈 상승, 환율은 거의 그대로</div><p class="term">필라델피아 반도체지수(SOX)는 미국에 상장된 주요 반도체 기업 주가를 모은 지수예요. 한국 반도체주의 아침 분위기를 미리 보여 주는 지표로 자주 쓰여요. 간밤 SOX는 11,065.0으로 +2.65% 올라 S&amp;P500(+0.94%)과 나스닥(+1.23%)보다 더 많이 올랐어요. S&amp;P 선물(정규장이 끝난 뒤에도 거래되는 지수 계약)도 +0.87%예요. 원/달러 환율은 1,326.48원으로 +0.04%여서 사실상 변화가 없었어요.</p><div class="think"><span class="tl">💬 내 생각</span><p>미국 반도체가 강했으니 오늘 한국 반도체 대형주도 따라 오를 수 있어요. 다만 직전 한국장에서 반도체 업종은 -0.4%로 덜 빠졌어도, 업종 안에서 오른 종목은 21개, 내린 종목은 146개였어요. 미국의 강세가 대형주 몇 개에만 미칠지, 업종 전체로 퍼질지는 따로 확인해야 해요. 환율이 움직이지 않았으니 오늘 외국인 수급은 환율보다 실적·업종 이슈에 더 크게 좌우될 수 있어요.</p></div><div class="cp"><div class="cp-head"><span class="cp-badge">✅ 체크포인트</span><span class="cp-act">오늘 장 마감 때 반도체와반도체장비 업종의 상승·하락 종목 수와 삼성전자(직전 213,500원)·SK하이닉스(직전 1,290,000원)의 등락률을 확인해요.</span></div><div class="forks"><div class="fork"><div class="fork-cond">업종 안에서 오른 종목이 내린 종목보다 많아지고 두 대형주가 함께 오르면</div><div class="fork-read">간밤 SOX 강세가 한국 반도체 전반으로 번졌다는 뜻일 수 있어요.</div></div><div class="fork"><div class="fork-cond">대형주만 오르고 업종 안에서 내린 종목이 여전히 대부분이면</div><div class="fork-read">반등이 일부 대형주에만 몰렸고, 업종 전체의 투자 심리는 아직 약하다고 볼 수 있어요.</div></div></div></div></div><div class="wsec"><div class="wt">직전 한국장: 외국인 매도, 방산·조선 급락</div><p class="term">수급은 누가 사고 팔았는지를 말해요. 순매수는 산 금액이 판 금액보다 많은 것이고, 순매도는 그 반대예요. 10월 26일 코스피에서 외국인은 6,827억 순매도했고, 기관은 6,131억, 개인은 331억 순매수했어요. 업종별로 보면 우주항공과국방(방산)이 -5.51%(상승 6개, 하락 29개), 조선이 -4.82%(상승 2개, 하락 26개)였어요. 종목별로는 한화에어로스페이스 753,000원(-4.92%), LIG디펜스앤에어로스페이스 425,000원(-10.62%), HD현대중공업 289,500원(-5.08%), HD현대마린솔루션 168,300원(-14.35%)이 크게 내렸어요.</p><div class="think"><span class="tl">💬 내 생각</span><p>방산·조선은 대장주부터 작은 종목까지 함께 내렸어요. 개별 기업의 문제라기보다 업종 전체에서 돈이 빠져나간 모습에 가까워 보여요. 하락 원인은 이 자료만으로는 확인 안 됨이에요. 기관이 외국인 매도를 상당 부분 받아 줬지만 지수 하락을 막지는 못했어요. 이 흐름이 오늘도 이어진다면, 그동안 많이 오른 업종에서 차익 실현(올라서 생긴 이익을 팔아서 확정하는 것)이 계속되는 것으로 볼 수 있어요.</p></div><div class="cp"><div class="cp-head"><span class="cp-badge">✅ 체크포인트</span><span class="cp-act">오늘 장 마감 때 코스피 외국인 순매수 금액의 부호(+/-)와 우주항공과국방·조선 업종의 등락률을 확인해요.</span></div><div class="forks"><div class="fork"><div class="fork-cond">외국인이 순매수로 돌아서고 방산·조선 업종이 오르면</div><div class="fork-read">직전 급락이 하루짜리 충격이었고, 낙폭을 되찾는 움직임이 시작됐다고 볼 수 있어요.</div></div><div class="fork"><div class="fork-cond">외국인 순매도가 이어지고 방산·조선이 또 내리면</div><div class="fork-read">이 업종에서 자금이 계속 빠져나가는 흐름이 이어진다고 볼 수 있어요.</div></div></div></div></div><div class="wsec"><div class="wt">오늘 볼 것: SK하이닉스 3분기 실적과 추가 주주환원</div><p class="term">보도에 따르면 SK하이닉스는 오늘(10월 27일) 3분기 실적을 발표하고, 같은 자리에서 추가 주주환원 계획도 알리겠다고 했어요. 주주환원은 회사가 번 돈을 배당이나 자사주 매입·소각(회사가 자기 주식을 사서 없애 주식 수를 줄이는 것)으로 주주에게 돌려주는 것을 말해요. 직전 거래일 SK하이닉스는 1,290,000원(+1.02%)으로, 반도체 업종이 -0.4%였던 날에도 올랐어요. 시장 기대치(컨센서스) 수치는 snapshot에 없어 확인 안 됨이에요.</p><div class="think"><span class="tl">💬 내 생각</span><p>실적과 주주환원이 시장 기대에 맞거나 더 낫다면, 간밤 SOX 강세와 겹쳐 반도체가 코스피를 받쳐 줄 수 있어요. 반대로 실적이 기대에 못 미치거나 환원 규모가 실망스럽다면, 미국 반도체가 강했어도 한국 반도체는 따로 약해질 수 있어요. 코스피는 9월 23일 7,080.92에서 직전 5,469.47까지 내려온 상태라, 대형주 실적에 대한 반응이 지수 방향을 크게 좌우할 수 있어요.</p></div><div class="cp"><div class="cp-head"><span class="cp-badge">✅ 체크포인트</span><span class="cp-act">SK하이닉스 공시에서 3분기 영업이익과 추가 주주환원 내용을 보고, 발표 뒤 주가가 직전 종가 1,290,000원보다 위인지 아래인지 확인해요.</span></div><div class="forks"><div class="fork"><div class="fork-cond">발표 뒤 SK하이닉스가 1,290,000원 위에서 마감하면</div><div class="fork-read">시장이 실적·환원 내용을 긍정적으로 받아들였다고 볼 수 있어요.</div></div><div class="fork"><div class="fork-cond">발표 뒤 SK하이닉스가 1,290,000원 아래에서 마감하면</div><div class="fork-read">실적이나 환원 내용이 기대에 못 미쳤다고 시장이 판단했을 수 있어요.</div></div></div></div></div></div><div class="foot">⚠️ 방향·사실·해석 정보이며 매수·매도 신호가 아닙니다. 판단과 책임은 본인에게 있습니다.</div></section>
+<div class="legend"><span><b class="up">▲ 빨강</b> = 상승</span><span><b class="down">▼ 파랑</b> = 하락</span><span style="color:var(--accent)"><b>황토</b> = 해석·체크포인트</span><span style="color:var(--geo)"><b>🌍</b> = 정세(해석)</span></div>
+</div>
+</body>
+</html>
