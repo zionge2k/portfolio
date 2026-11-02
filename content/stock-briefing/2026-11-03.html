@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>주식 서사 브리핑 · 2026-11-03</title>
+<style>
+  :root {
+    --ground: #eef0f4; --card: #ffffff; --card-2: #f8f9fb;
+    --ink: #1b2027; --ink-soft: #5c6570; --ink-faint: #8b929c;
+    --line: #e4e7ec; --line-strong: #d3d8df;
+    --up: #d5342c; --down: #1f6fd6;
+    --accent: #b07a12; --accent-soft: #f4ead2;
+    --geo: #4a6b3a; --geo-soft: #eaf0e4;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+    --kr: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard",
+          "Noto Sans KR", "Malgun Gothic", sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #0e1116; --card: #171b21; --card-2: #1e232b;
+      --ink: #e7ebef; --ink-soft: #a3abb5; --ink-faint: #6c7580;
+      --line: #262c34; --line-strong: #333b45;
+      --up: #ff6a5f; --down: #5fa0f5; --accent: #e2b45a; --accent-soft: #332c17;
+      --geo: #9dbb84; --geo-soft: #1e2a18;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #0e1116; --card: #171b21; --card-2: #1e232b;
+    --ink: #e7ebef; --ink-soft: #a3abb5; --ink-faint: #6c7580;
+    --line: #262c34; --line-strong: #333b45;
+    --up: #ff6a5f; --down: #5fa0f5; --accent: #e2b45a; --accent-soft: #332c17;
+    --geo: #9dbb84; --geo-soft: #1e2a18;
+  }
+  :root[data-theme="light"] {
+    --ground: #eef0f4; --card: #ffffff; --card-2: #f8f9fb;
+    --ink: #1b2027; --ink-soft: #5c6570; --ink-faint: #8b929c;
+    --line: #e4e7ec; --line-strong: #d3d8df;
+    --up: #d5342c; --down: #1f6fd6; --accent: #b07a12; --accent-soft: #f4ead2;
+    --geo: #4a6b3a; --geo-soft: #eaf0e4;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--ground); color: var(--ink);
+    font-family: var(--kr); line-height: 1.55;
+    -webkit-font-smoothing: antialiased; font-variant-numeric: tabular-nums; }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 40px 20px 56px; }
+  .page-head { text-align: center; margin-bottom: 26px; }
+  .page-head h1 { font-size: 15px; font-weight: 600; letter-spacing: .14em;
+    color: var(--ink-soft); margin: 0 0 6px; text-transform: uppercase; }
+  .page-head p { margin: 0; font-size: 13px; color: var(--ink-faint); }
+  .card { background: var(--card); border: 1px solid var(--line);
+    border-radius: 16px; padding: 24px 24px 20px;
+    box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 12px 30px -18px rgba(0,0,0,.25);
+    display: flex; flex-direction: column; gap: 16px; margin-bottom: 34px; }
+  .card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+  .session { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 17px; }
+  .date { font-size: 12.5px; color: var(--ink-faint); }
+  .hero { background: var(--accent-soft); border-left: 3px solid var(--accent);
+    border-radius: 8px; padding: 13px 15px; display: flex; flex-direction: column; gap: 7px; }
+  .hero .txt { font-size: 15.5px; font-weight: 700; line-height: 1.5; }
+  .hero .psy { font-size: 13px; line-height: 1.5; color: var(--ink);
+    padding-top: 7px; border-top: 1px dashed color-mix(in srgb, var(--accent) 35%, transparent); }
+  .hero .psy .ev { color: var(--ink-faint); font-size: 11.5px; }
+  .group { display: flex; flex-direction: column; gap: 7px; }
+  .group > .glabel { display: flex; align-items: center; gap: 7px;
+    font-size: 12px; font-weight: 700; letter-spacing: .04em; color: var(--ink-soft);
+    padding-bottom: 3px; border-bottom: 1px solid var(--line); }
+  .fact { display: grid; grid-template-columns: auto 1fr; gap: 9px; align-items: baseline; }
+  .key { font-family: var(--mono); font-size: 10.5px; font-weight: 600;
+    color: var(--ink-soft); background: var(--card-2); border: 1px solid var(--line);
+    border-radius: 5px; padding: 1.5px 6px; white-space: nowrap; }
+  .val { font-size: 13.5px; line-height: 1.5; }
+  .val em { color: var(--ink-faint); font-style: normal; font-size: 12.5px; }
+  .up { color: var(--up); font-weight: 700; white-space: nowrap; }
+  .down { color: var(--down); font-weight: 700; white-space: nowrap; }
+  .watch { color: var(--accent); font-weight: 700; }
+  a.link { color: var(--down); text-decoration: none;
+    border-bottom: 1px solid color-mix(in srgb, var(--down) 40%, transparent); }
+  a.link:hover { border-bottom-color: var(--down); }
+  .geo-line { background: var(--geo-soft); border-left: 3px solid var(--geo);
+    border-radius: 8px; padding: 10px 14px; font-size: 13.5px; line-height: 1.55; }
+  .geo-line .lbl { font-size: 11px; font-weight: 700; letter-spacing: .08em;
+    color: var(--geo); text-transform: uppercase; display: block; margin-bottom: 2px; }
+  .chart { background: var(--card-2); border: 1px solid var(--line);
+    border-radius: 10px; padding: 10px 12px 8px; }
+  .chart-head { display: flex; justify-content: space-between; align-items: baseline;
+    font-size: 11.5px; color: var(--ink-soft); margin-bottom: 2px; }
+  .chart-head b { font-weight: 700; color: var(--ink); }
+  .chart svg { display: block; width: 100%; height: auto; aspect-ratio: 560 / 170; }
+  .chart-cap { font-size: 11px; color: var(--ink-faint); margin-top: 2px; }
+  .exp { border-top: 2px solid var(--line-strong); margin-top: 6px; padding-top: 14px;
+    display: flex; flex-direction: column; gap: 4px; }
+  .exp-title { font-size: 14px; font-weight: 700; color: var(--ink-soft); margin-bottom: 6px; }
+  .wsec { padding: 13px 0; border-top: 1px dashed var(--line); }
+  .wsec:first-of-type { border-top: none; }
+  .wt { font-size: 14.5px; font-weight: 700; color: var(--accent); margin-bottom: 6px; }
+  .wsec p { margin: 0 0 8px; font-size: 13.5px; line-height: 1.64; }
+  .wsec p:last-child { margin-bottom: 0; }
+  .term { color: var(--ink-soft); font-size: 13px; }
+  .think { background: var(--accent-soft); border-left: 3px solid var(--accent);
+    border-radius: 8px; padding: 10px 13px; margin-bottom: 9px; }
+  .think .tl { font-size: 11px; font-weight: 700; letter-spacing: .06em;
+    color: var(--accent); display: block; margin-bottom: 3px; }
+  .think p { margin: 0; font-size: 13.5px; line-height: 1.68; }
+  .cp-head { display: flex; gap: 9px; align-items: baseline; margin-bottom: 8px; }
+  .cp-badge { flex: none; font-size: 11px; font-weight: 800; letter-spacing: .03em;
+    color: var(--accent); background: var(--card); border: 1.5px solid var(--accent);
+    border-radius: 999px; padding: 2.5px 10px; }
+  .cp-act { font-size: 13.5px; font-weight: 600; line-height: 1.5; }
+  .forks { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+  @media (max-width: 620px) { .forks { grid-template-columns: 1fr; } }
+  .fork { background: var(--card-2); border: 1px solid var(--line);
+    border-radius: 10px; padding: 9px 12px 10px; }
+  .fork-cond { font-size: 12px; font-weight: 700; color: var(--ink-soft);
+    padding-bottom: 5px; margin-bottom: 6px; border-bottom: 1px solid var(--line);
+    display: flex; gap: 6px; align-items: center; }
+  .fork-cond::before { content: "→"; color: var(--accent); font-weight: 800; }
+  .fork-read { font-size: 12.5px; line-height: 1.6; }
+  .cal-wrap { background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+    padding: 16px 20px; margin-bottom: 34px; display: flex; flex-direction: column; gap: 8px; }
+  .cal { display: flex; flex-direction: column; }
+  .cal-day { display: grid; grid-template-columns: 62px 1fr; gap: 10px;
+    padding: 7px 4px; border-top: 1px dashed var(--line); }
+  .cal-day:first-of-type { border-top: none; }
+  .cal-date { font-family: var(--mono); font-size: 11.5px; font-weight: 700;
+    color: var(--ink-soft); white-space: nowrap; padding-top: 2px; }
+  .cal-day.today { background: var(--accent-soft); border-radius: 8px; border-top: none; }
+  .cal-day.today .cal-date { color: var(--accent); }
+  .cal-day.past { opacity: .45; }
+  .cal-evs { display: flex; flex-direction: column; gap: 4px; }
+  .cal-ev { font-size: 12.5px; line-height: 1.55; }
+  .cal-ev b { font-weight: 700; }
+  .cal-ev .why { color: var(--ink-faint); font-size: 12px; }
+  .cal-ev.cancelled { text-decoration: line-through; color: var(--ink-faint); }
+  .cal-ev .cancel-tag { color: var(--down); font-weight: 700; text-decoration: none;
+    display: inline-block; margin-left: 4px; font-size: 11px; }
+  .digest { padding: 10px 0 4px; }
+  .digest .dh { font-size: 13.5px; font-weight: 700; margin-bottom: 3px; }
+  .digest .dh a { color: inherit; text-decoration: none;
+    border-bottom: 1px solid var(--line-strong); }
+  .digest p { margin: 0; font-size: 13px; line-height: 1.62; color: var(--ink-soft); }
+  .foot { margin-top: 4px; padding-top: 10px; border-top: 1px dashed var(--line-strong);
+    font-size: 11px; color: var(--ink-faint); line-height: 1.5; }
+  .legend { text-align: center; margin-top: 4px; font-size: 12px; color: var(--ink-faint);
+    display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="page-head"><h1>주식 서사 브리핑</h1><p>판단이 아닌 참고용 팩트·해석 — 수치는 코드가, 서사는 AI가 생성합니다</p></div>
+<section class="cal-wrap"><div class="glabel">📅 이번 주 일정</div><div class="cal"><div class="cal-day today"><span class="cal-date">화 11/3</span><div class="cal-evs"><div class="cal-ev">🇰🇷 <a class="link" href="https://mods.go.kr/lcofNewsPln.es?mid=a60303000000" target="_blank" rel="noopener noreferrer">10월 소비자물가동향 발표</a><span class="why"> — 물가 흐름 → 금리 기대 변화 → 증시 전반, 특히 금리에 민감한 성장주에 영향을 줄 수 있어요. (국가데이터처 공표 일정표 기준)</span></div></div></div><div class="cal-day"><span class="cal-date">금 11/6</span><div class="cal-evs"><div class="cal-ev">🇺🇸 <a class="link" href="https://www.bls.gov/schedule/news_release/empsit.htm" target="_blank" rel="noopener noreferrer">미국 10월 고용보고서 (오후 10:30 한국시간 전후 발표 예정, 현지 8:30 AM)</a><span class="why"> — 고용 강도 → 연준 금리 경로 기대 → 달러·환율과 반도체 등 성장주에 영향을 줄 수 있어요.</span></div></div></div></div></section>
+<section class="card"><div class="card-head"><div class="session">🌅 아침 브리핑</div><div class="date">2026-11-03 (화) 08:00 · 장 시작 전</div></div><div class="hero"><div class="txt">간밤 미국 반도체 지수(SOX)가 3.37% 내려, 오늘 한국 반도체주가 부담을 안고 시작할 수 있어요. 원/달러도 1,344.63원으로 올랐어요.</div><div class="psy">🌡️ 조심 — 나스닥 -1.07%, SOX -3.37%, S&amp;P 선물 -0.35%, 원/달러 +0.5%. 직전 한국장(10/30)도 코스피 -3.48%로 마감했어요.</div></div><div class="group"><div class="glabel">🌐 간밤 · 거시</div><div class="fact"><span class="key">간밤 미국</span><span class="val">S&P500 <span class="down">▼0.51%</span> · 나스닥 <span class="down">▼1.07%</span> · 반도체 SOX <span class="down">▼3.37%</span> · 선물 <span class="down">▼0.35%</span></span></div><div class="fact"><span class="key">환율</span><span class="val">원/달러 1,344.6원 <span class="up">▲6.65원</span></span></div></div><div class="group"><div class="glabel">🇰🇷 직전 거래일</div><div class="fact"><span class="key">직전 지수</span><span class="val">코스피 5,859.08 0.00% · 코스닥 734.36 0.00% <em>(2026-10-30 종가)</em></span></div><div class="fact"><span class="key">20거래일</span><span class="val">고점 7,004(10/02) · 저점 5,469(10/26) · 고점 대비 <span class="down">▼18.18%</span></span></div><div class="fact"><span class="key">시장 폭</span><span class="val">상승 <span class="up">0</span> : 하락 <span class="down">0</span> · 보합 0</span></div><div class="fact"><span class="key">수급</span><span class="val">코스피 외국인 0억 · 기관 0억 / 개인 0억 <em>(11/03 기준)</em></span></div><div class="fact"><span class="key">업종 지형</span><span class="val">최강 항공사 0.00% · 항공화물운송과물류 0.00% / 최약 건강관리업체및서비스 0.00% · 부동산 0.00%</span></div></div><div class="group"><div class="glabel">🎯 관심 섹터</div><div class="fact"><span class="key">반도체</span><span class="val">업종 0.00% — 대표주 SK스퀘어 0.00% · 원익IPS 0.00% · 리노공업 0.00% <em>(변동 최대 SK스퀘어 0.00%)</em></span></div><div class="fact"><span class="key">방산</span><span class="val">업종 0.00% — 대표주 한화에어로스페이스 0.00% · 한화시스템 0.00% · 한국항공우주 0.00% <em>(변동 최대 한화에어로스페이스 0.00%)</em></span></div><div class="fact"><span class="key">조선</span><span class="val">업종 0.00% — 대표주 HD현대중공업 0.00% · HD한국조선해양 0.00% · 한화오션 0.00% <em>(변동 최대 HD현대중공업 0.00%)</em></span></div></div><div class="exp"><div class="exp-title">🧭 아침 해설</div><div class="wsec"><div class="wt">간밤 미국: 반도체가 가장 크게 밀렸어요</div><p class="term">11월 2일(현지) 미국 증시에서 S&amp;P500은 7,541.4로 0.51%, 나스닥은 25,164.32로 1.07% 내렸어요. 필라델피아 반도체지수(SOX, 미국 반도체 대표 종목을 묶은 지수)는 10,328.33으로 3.37% 떨어져 낙폭이 컸어요. S&amp;P 선물(정규장 밖에서 거래되는 지수 선물)도 0.35% 내린 상태예요.</p><div class="think"><span class="tl">💬 내 생각</span><p>한국 반도체는 미국 반도체 흐름을 먼저 따라가는 경우가 많아서, 오늘 SK스퀘어 같은 반도체 대형주가 약하게 시작할 수 있어요. 다만 미국 낙폭의 원인은 snapshot만으로는 확인이 안 돼요. 특정 종목 이슈라면 영향이 제한될 수도 있어요.</p></div><div class="cp"><div class="cp-head"><span class="cp-badge">✅ 체크포인트</span><span class="cp-act">장 시작 후 30분 동안 반도체와반도체장비 업종과 SK스퀘어(전 거래일 기준 959,000원)의 등락률을 확인해요.</span></div><div class="forks"><div class="fork"><div class="fork-cond">반도체 업종이 SOX 낙폭만큼 크게 밀리면</div><div class="fork-read">미국 반도체 약세가 그대로 전이된 것으로 볼 수 있어요.</div></div><div class="fork"><div class="fork-cond">반도체 업종이 낙폭을 줄이거나 오르면</div><div class="fork-read">미국 약세가 이미 반영됐거나 국내 수급이 받치고 있다고 해석할 수 있어요.</div></div></div></div></div><div class="wsec"><div class="wt">환율: 원화가 약해졌어요</div><p class="term">원/달러 환율은 1,344.63원으로 0.5% 올랐어요. 환율이 오른다는 건 달러 대비 원화 가치가 떨어졌다는 뜻이에요. 외국인이 한국 주식을 팔고 나갈 때 함께 오르는 경향이 있어서 외국인 수급과 같이 봐요.</p><div class="think"><span class="tl">💬 내 생각</span><p>위험을 피하려는 분위기에서 환율이 오르면 외국인 매도가 늘 수 있어요. 반대로 환율이 안정되면 부담이 덜할 수 있고요. 오늘 개장 전 수급은 모두 0이라 아직 알 수 없어요.</p></div><div class="cp"><div class="cp-head"><span class="cp-badge">✅ 체크포인트</span><span class="cp-act">장중 원/달러 환율과 코스피 외국인 순매수·순매도 금액(억 원)을 함께 확인해요.</span></div><div class="forks"><div class="fork"><div class="fork-cond">환율이 더 오르고 외국인이 순매도면</div><div class="fork-read">외국인 이탈 압력이 커지는 신호일 수 있어요.</div></div><div class="fork"><div class="fork-cond">환율이 내리고 외국인이 순매수면</div><div class="fork-read">위험 회피 분위기가 누그러졌다고 읽을 수 있어요.</div></div></div></div></div><div class="wsec"><div class="wt">직전 한국장과 오늘 볼 것</div><p class="term">직전 거래일(10/30) 코스피는 5,730.74로 3.48% 내렸어요. 10월에는 하루 3% 넘게 오르내린 날이 여러 번이라 변동이 매우 컸어요. 지금 코스피 5,859.08과 변동 0%는 개장 전 기준값일 뿐이고, 방산(한화에어로스페이스 740,000원)과 조선(HD현대중공업 287,500원) 가격도 전 거래일 기준이에요. 이번 주 일정으로는 11월 3일 국가데이터처의 10월 소비자물가동향, 11월 6일 미국 10월 고용보고서가 확인됐어요.</p><div class="think"><span class="tl">💬 내 생각</span><p>변동이 큰 장에서는 미국 반도체 급락 같은 재료에 반응이 과하게 나올 수 있어요. 방산·조선은 반도체와 다른 재료로 움직이는 경우가 있어서 오늘 반도체 약세와 다르게 가는지 비교해 볼 만해요. 물가와 고용 지표는 금리 기대를 바꿔 장 분위기에 영향을 줄 수 있어요.</p></div><div class="cp"><div class="cp-head"><span class="cp-badge">✅ 체크포인트</span><span class="cp-act">코스피가 전 거래일 종가 5,730.74 위에서 버티는지, 방산·조선 업종이 반도체보다 덜 밀리는지 확인해요.</span></div><div class="forks"><div class="fork"><div class="fork-cond">코스피가 5,730.74 아래로 내려가고 방산·조선도 약하면</div><div class="fork-read">시장 전반으로 매도가 번지는 흐름일 수 있어요.</div></div><div class="fork"><div class="fork-cond">반도체만 약하고 방산·조선은 버티면</div><div class="fork-read">약세가 반도체에 한정된 흐름일 수 있어요.</div></div></div></div></div></div><div class="foot">⚠️ 방향·사실·해석 정보이며 매수·매도 신호가 아닙니다. 판단과 책임은 본인에게 있습니다.</div></section>
+<div class="legend"><span><b class="up">▲ 빨강</b> = 상승</span><span><b class="down">▼ 파랑</b> = 하락</span><span style="color:var(--accent)"><b>황토</b> = 해석·체크포인트</span><span style="color:var(--geo)"><b>🌍</b> = 정세(해석)</span></div>
+</div>
+</body>
+</html>
